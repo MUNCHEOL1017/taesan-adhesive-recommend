@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>태산솔루션 | 헨켈·로크타이트 산업용 접착제 추천</title>
+<style>
+  :root {
+    --red: #E2001A;
+    --red-dark: #a80014;
+    --navy: #10151c;
+    --navy-2: #1b2330;
+    --gray: #5b6472;
+    --gray-light: #f4f5f7;
+    --gray-border: #e2e5ea;
+    --white: #ffffff;
+    --shadow: 0 4px 20px rgba(16,21,28,.08);
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; color: #1c222b; background: var(--white); line-height: 1.55; }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+  .container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 88px 0; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: var(--red); letter-spacing: .03em; margin-bottom: 12px; }
+  .section-title { font-size: 30px; font-weight: 800; margin-bottom: 14px; color: var(--navy); }
+  .section-desc { font-size: 15px; color: var(--gray); max-width: 620px; margin-bottom: 44px; }
+  .center { text-align: center; margin-left: auto; margin-right: auto; }
+
+  /* NAV */
+  .nav { position: sticky; top: 0; z-index: 200; background: rgba(16,21,28,.96); backdrop-filter: blur(6px); }
+  .nav-inner { max-width: 1120px; margin: 0 auto; padding: 0 24px; height: 68px; display: flex; align-items: center; justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: 10px; color: #fff; font-weight: 800; font-size: 18px; }
+  .brand .dot { width: 10px; height: 10px; background: var(--red); border-radius: 3px; display: inline-block; }
+  .nav-links { display: flex; gap: 30px; }
+  .nav-links a { color: #cfd4dc; font-size: 14px; font-weight: 600; }
+  .nav-links a:hover { color: #fff; }
+  .nav-cta { display: flex; align-items: center; gap: 10px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 11px 22px; border-radius: 999px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; transition: all .18s; white-space: nowrap; }
+  .btn-primary { background: var(--red); color: #fff; }
+  .btn-primary:hover { background: var(--red-dark); }
+  .btn-ghost { background: rgba(255,255,255,.08); color: #fff; border: 1px solid rgba(255,255,255,.25); }
+  .btn-ghost:hover { background: rgba(255,255,255,.16); }
+  .btn-outline { background: #fff; color: var(--navy); border: 1.5px solid var(--gray-border); }
+  .btn-outline:hover { border-color: var(--red); color: var(--red); }
+  .btn-lg { padding: 15px 30px; font-size: 15px; }
+  @media (max-width: 860px) { .nav-links { display: none; } }
+
+  /* HERO */
+  .hero { background: linear-gradient(160deg, var(--navy) 0%, var(--navy-2) 60%, #232c3a 100%); color: #fff; padding: 110px 0 100px; position: relative; overflow: hidden; }
+  .hero::after { content: ''; position: absolute; right: -120px; top: -80px; width: 480px; height: 480px; background: radial-gradient(circle, rgba(226,0,26,.28), transparent 70%); }
+  .hero-inner { position: relative; max-width: 680px; }
+  .badge-row { display: flex; gap: 10px; margin-bottom: 26px; flex-wrap: wrap; }
+  .badge { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18); padding: 7px 14px; border-radius: 999px; font-size: 12.5px; font-weight: 700; color: #e8eaef; }
+  .hero h1 { font-size: 42px; font-weight: 800; line-height: 1.3; margin-bottom: 20px; }
+  .hero h1 span { color: var(--red); }
+  .hero p { font-size: 16px; color: #b7bec9; margin-bottom: 34px; max-width: 540px; }
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  /* BRAND STRIP */
+  .brand-strip { background: var(--gray-light); padding: 28px 0; border-bottom: 1px solid var(--gray-border); }
+  .brand-strip .container { display: flex; align-items: center; justify-content: center; gap: 48px; flex-wrap: wrap; }
+  .brand-strip .label { font-size: 13px; font-weight: 700; color: var(--gray); }
+  .brand-pill { font-weight: 800; font-size: 17px; color: var(--navy); letter-spacing: .01em; }
+  .brand-pill.henkel { color: var(--red); }
+
+  /* PROCESS */
+  .process-wrap { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  @media (max-width: 860px) { .process-wrap { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .process-wrap { grid-template-columns: 1fr; } }
+  .proc-card { position: relative; padding: 26px 22px; background: var(--gray-light); border-radius: var(--radius); }
+  .proc-num { font-size: 13px; font-weight: 800; color: var(--red); margin-bottom: 10px; }
+  .proc-card h4 { font-size: 15.5px; font-weight: 700; margin-bottom: 8px; color: var(--navy); }
+  .proc-card p { font-size: 13px; color: var(--gray); }
+
+  /* FORM */
+  .form-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  @media (max-width: 900px) { .form-wrap { grid-template-columns: 1fr; } }
+  .contact-card { background: var(--gray-light); border-radius: var(--radius); padding: 28px; height: fit-content; }
+  .contact-card h4 { font-size: 16px; font-weight: 700; margin-bottom: 18px; color: var(--navy); }
+  .contact-row { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid var(--gray-border); font-size: 13.5px; }
+  .contact-row:last-child { border-bottom: none; }
+  .contact-row .ic { width: 30px; }
+  .contact-row b { display: block; font-size: 12px; color: var(--gray); font-weight: 600; margin-bottom: 2px; }
+  form { display: flex; flex-direction: column; gap: 16px; }
+  .form-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 500px) { .form-2col { grid-template-columns: 1fr; } }
+  label { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 6px; display: block; }
+  .field input, .field select, .field textarea {
+    width: 100%; padding: 12px 14px; border: 1.5px solid var(--gray-border); border-radius: 10px; font-size: 14px; font-family: inherit; outline: none; transition: border-color .15s; background: #fff;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--red); }
+  .field textarea { resize: vertical; min-height: 90px; }
+  .file-drop { border: 1.5px dashed var(--gray-border); border-radius: 10px; padding: 20px; text-align: center; font-size: 13px; color: var(--gray); cursor: pointer; }
+  .file-drop:hover { border-color: var(--red); color: var(--red); }
+  #file-name { font-size: 12.5px; color: var(--gray); margin-top: 6px; }
+  .form-note { font-size: 12px; color: var(--gray); }
+  .submit-msg { display: none; background: #e9f9ee; color: #1b7a3d; border: 1px solid #bfe9cd; padding: 12px 14px; border-radius: 10px; font-size: 13.5px; }
+  .submit-msg.show { display: block; }
+  .reco-card { background: #fdf5f6; border: 1.5px solid #f6c9ce; border-radius: 10px; padding: 16px 18px; }
+  .reco-label { font-size: 11.5px; font-weight: 800; color: var(--red); margin-bottom: 8px; letter-spacing: .02em; }
+  .reco-title { font-size: 16px; font-weight: 800; color: var(--navy); margin-bottom: 6px; }
+  .reco-desc { font-size: 13.5px; color: #424242; margin-bottom: 10px; line-height: 1.6; }
+  .reco-note { font-size: 11.5px; color: var(--gray); line-height: 1.5; }
+  .env-options { display: flex; flex-wrap: wrap; gap: 8px; }
+  .env-chip { display: inline-flex; cursor: pointer; }
+  .env-chip input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: -1px; }
+  .env-chip span { display: inline-block; padding: 8px 14px; border-radius: 999px; border: 1.5px solid var(--gray-border); font-size: 13px; font-weight: 600; color: var(--gray); transition: all .15s; }
+  .env-chip input:checked + span { background: var(--red); border-color: var(--red); color: #fff; }
+  .reco-env { margin-bottom: 12px; padding-top: 10px; border-top: 1px dashed #f0b8bf; }
+  .reco-env-label { font-size: 12px; font-weight: 700; color: var(--red); margin-bottom: 6px; }
+  .reco-env ul { padding-left: 18px; }
+  .reco-env li { font-size: 12.5px; color: #424242; margin-bottom: 3px; }
+  .reco-lineup { margin-bottom: 12px; }
+  .reco-lineup-label { font-size: 12px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+  .lineup-item { background: #fff; border: 1px solid #f0d3d6; border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; }
+  .lineup-item:last-child { margin-bottom: 0; }
+  .lineup-item .lineup-name { font-weight: 800; font-size: 13.5px; color: var(--red); margin-bottom: 2px; }
+  .lineup-item .lineup-capacity { font-size: 11.5px; color: var(--navy); font-weight: 600; margin-bottom: 4px; }
+  .lineup-item .lineup-desc { font-size: 12px; color: #424242; line-height: 1.5; margin-bottom: 6px; }
+  .lineup-item .lineup-link { font-size: 11.5px; color: var(--red); font-weight: 700; text-decoration: underline; }
+  .lineup-item .lineup-link:hover { color: var(--red-dark); }
+  .reco-extra { margin-bottom: 12px; padding-top: 10px; border-top: 1px dashed #f0b8bf; }
+  .reco-extra-label { font-size: 12px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+
+  /* FOOTER */
+  footer { background: var(--navy); color: #cfd4dc; padding: 64px 0 0; }
+  .footer-grid { display: grid; grid-template-columns: 1.4fr repeat(3, 1fr); gap: 32px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,.1); }
+  @media (max-width: 900px) { .footer-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .footer-grid { grid-template-columns: 1fr; } }
+  .footer-brand { display: flex; align-items: center; gap: 8px; color: #fff; font-weight: 800; font-size: 17px; margin-bottom: 12px; }
+  .footer-brand .dot { width: 9px; height: 9px; background: var(--red); border-radius: 3px; }
+  .footer-desc { font-size: 13px; color: #9aa2ad; margin-bottom: 16px; max-width: 260px; }
+  .footer-badges { display: flex; gap: 8px; flex-wrap: wrap; }
+  .footer-badges span { font-size: 11px; font-weight: 700; background: rgba(255,255,255,.08); padding: 5px 10px; border-radius: 999px; }
+  .footer-col h5 { font-size: 13.5px; font-weight: 700; color: #fff; margin-bottom: 16px; }
+  .footer-col a, .footer-col p { display: block; font-size: 13px; color: #9aa2ad; margin-bottom: 11px; }
+  .footer-col a:hover { color: #fff; }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding: 22px 0; font-size: 12px; color: #7d8591; flex-wrap: wrap; gap: 10px; }
+
+  .scroll-top { position: fixed; right: 24px; bottom: 24px; width: 46px; height: 46px; border-radius: 50%; background: var(--red); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; box-shadow: 0 6px 18px rgba(226,0,26,.4); z-index: 150; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="brand"><span class="dot"></span>태산솔루션</div>
+    <div class="nav-links">
+      <a href="#recommender">접착제 추천 도구</a>
+      <a href="#process">추천 프로세스</a>
+      <a href="#contact">접착제 추천 문의</a>
+    </div>
+    <div class="nav-cta">
+      <a class="btn btn-ghost" href="tel:010-9485-9738">📞 010-9485-9738</a>
+      <a class="btn btn-primary" href="#contact">추천 요청하기</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container hero-inner">
+    <div class="badge-row">
+      <span class="badge">LOCTITE 공식대리점</span>
+      <span class="badge">Henkel 공식대리점</span>
+    </div>
+    <h1>피착재와 사용 환경에 맞는<br><span>산업용 접착제</span>를 정확하게 추천합니다</h1>
+    <p>주식회사 태산솔루션은 로크타이트·헨켈 공식 대리점으로, 접착 부위 사진과 피착재 정보만 보내주시면 담당 엔지니어가 헨켈 기술팀과 함께 최적의 접착제를 선정해 드립니다.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary btn-lg" href="#contact">내 조건에 맞는 접착제 추천받기</a>
+    </div>
+  </div>
+</header>
+
+<div class="brand-strip">
+  <div class="container">
+    <span class="label">공식 취급 브랜드</span>
+    <span class="brand-pill henkel">Henkel</span>
+    <span class="brand-pill henkel">LOCTITE</span>
+  </div>
+</div>
+
+<section id="recommender">
+  <div class="container">
+    <div class="eyebrow">● MATERIAL MATCH</div>
+    <h2 class="section-title">피착재 2가지를 선택하면 접착제를 추천해 드립니다</h2>
+    <p class="section-desc">접합하려는 두 소재를 선택하면 조합에 맞는 접착제 종류를 바로 확인할 수 있습니다.</p>
+    <div class="form-2col">
+      <div class="field">
+        <label>피착재 1</label>
+        <select id="material1">
+          <option value="">선택하세요</option>
+          <option value="metal">금속</option>
+          <option value="plastic">플라스틱</option>
+          <option value="glass">유리</option>
+          <option value="rubber">고무</option>
+          <option value="ceramic">세라믹</option>
+          <option value="wood">목재</option>
+          <option value="composite">복합재(CFRP 등)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>피착재 2</label>
+        <select id="material2">
+          <option value="">선택하세요</option>
+          <option value="metal">금속</option>
+          <option value="plastic">플라스틱</option>
+          <option value="glass">유리</option>
+          <option value="rubber">고무</option>
+          <option value="ceramic">세라믹</option>
+          <option value="wood">목재</option>
+          <option value="composite">복합재(CFRP 등)</option>
+        </select>
+      </div>
+    </div>
+    <div class="field">
+      <label>작업 환경 (복수 선택 가능)</label>
+      <div class="env-options">
+        <label class="env-chip"><input type="checkbox" class="env-input" value="high_temp" /><span>고온 (50℃ 이상)</span></label>
+        <label class="env-chip"><input type="checkbox" class="env-input" value="low_temp" /><span>저온 (0℃ 이하)</span></label>
+        <label class="env-chip"><input type="checkbox" class="env-input" value="outdoor" /><span>실외 / 자외선 노출</span></label>
+        <label class="env-chip"><input type="checkbox" class="env-input" value="moisture" /><span>다습 / 방수 필요</span></label>
+        <label class="env-chip"><input type="checkbox" class="env-input" value="vibration" /><span>진동 / 충격 있음</span></label>
+        <label class="env-chip"><input type="checkbox" class="env-input" value="chemical" /><span>화학물질 노출</span></label>
+        <label class="env-chip"><input type="checkbox" class="env-input" value="insulation" /><span>전기 절연 필요</span></label>
+      </div>
+    </div>
+    <div class="field" id="reco-box" style="display:none; margin-top:16px;">
+      <div class="reco-card">
+        <div class="reco-label">🔎 자동 추천 결과</div>
+        <div class="reco-title" id="reco-title"></div>
+        <div class="reco-desc" id="reco-desc"></div>
+        <div class="reco-lineup">
+          <div class="reco-lineup-label">📦 상세 제품 라인업</div>
+          <div id="reco-lineup-list"></div>
+        </div>
+        <div class="reco-env" id="reco-env" style="display:none;">
+          <div class="reco-env-label">⚠️ 선택하신 작업 환경 고려사항</div>
+          <ul id="reco-env-list"></ul>
+        </div>
+        <div class="reco-extra" id="reco-extra" style="display:none;"></div>
+        <div class="reco-note">※ 위 추천은 소재 조합을 기준으로 한 1차 참고용입니다. 실제 사용 환경(온도·하중·경화조건 등)에 따라 태산솔루션 담당자가 헨켈 기술팀과 함께 최종 확인해 드립니다.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="process" style="background:var(--gray-light);">
+  <div class="container">
+    <div class="eyebrow">● PROCESS</div>
+    <h2 class="section-title">접착제 추천 진행 절차</h2>
+    <p class="section-desc">실제 헨켈 기술팀 검토 프로세스를 그대로 따릅니다. 사진 한 장이면 검토가 시작됩니다.</p>
+    <div class="process-wrap">
+      <div class="proc-card">
+        <div class="proc-num">STEP 01</div>
+        <h4>문의 접수</h4>
+        <p>고객사, 담당자, 피착재, 접착 부위 사진을 접수합니다.</p>
+      </div>
+      <div class="proc-card">
+        <div class="proc-num">STEP 02</div>
+        <h4>조건 확인</h4>
+        <p>피착재 공차, 사용 환경(온도·하중·경화방식)을 태산솔루션이 확인합니다.</p>
+      </div>
+      <div class="proc-card">
+        <div class="proc-num">STEP 03</div>
+        <h4>헨켈 기술 검토</h4>
+        <p>헨켈 기술팀과 함께 후보 제품 및 기술자료를 비교 검토합니다.</p>
+      </div>
+      <div class="proc-card">
+        <div class="proc-num">STEP 04</div>
+        <h4>추천 및 견적</h4>
+        <p>최적 제품 1~2종과 견적서를 대리점(태산솔루션)을 통해 전달합니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="container">
+    <div class="eyebrow">● CONTACT</div>
+    <h2 class="section-title">접착제 추천 문의</h2>
+    <p class="section-desc">아래 정보를 입력해 주시면 태산솔루션 담당자가 확인 후 헨켈 기술팀과 검토하여 24시간 이내 회신 드립니다.</p>
+    <div class="form-wrap">
+      <form id="inquiry-form">
+        <div class="form-2col">
+          <div class="field">
+            <label>고객사명 *</label>
+            <input type="text" id="company" placeholder="예) OO기업" required />
+          </div>
+          <div class="field">
+            <label>담당자명 *</label>
+            <input type="text" id="manager" placeholder="예) 홍길동 팀장" required />
+          </div>
+        </div>
+        <div class="form-2col">
+          <div class="field">
+            <label>연락처 *</label>
+            <input type="tel" id="phone" placeholder="010-0000-0000" required />
+          </div>
+          <div class="field">
+            <label>이메일</label>
+            <input type="email" id="email" placeholder="example@company.com" />
+          </div>
+        </div>
+        <div class="field">
+          <label>적용(APP)</label>
+          <input type="text" id="app" placeholder="예) 부품 조립, 전자기기 제조 등" />
+        </div>
+        <div class="field">
+          <label>요청사항 / 사용 환경</label>
+          <textarea id="detail" placeholder="예) 접착 부위 공차 1mm 이내, 투명 접착제 필요, UV 경화 설비 보유 여부 등"></textarea>
+        </div>
+        <div class="field">
+          <label>접착 부위 사진 (선택)</label>
+          <div class="file-drop" id="file-drop">📎 클릭하여 사진 첨부 (접착 부위 사진이 있으면 정확도가 높아집니다)</div>
+          <input type="file" id="photo" accept="image/*" style="display:none" multiple />
+          <div id="file-name"></div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg" style="margin-top:8px;">추천 요청 보내기</button>
+        <div class="submit-msg" id="submit-msg">✅ 요청이 접수되었습니다. 이메일 앱이 열리면 첨부 사진을 함께 넣어 보내주세요. 태산솔루션이 확인 후 24시간 이내 회신드립니다.</div>
+        <p class="form-note">* 표시는 필수 입력 항목입니다. 제출 시 작성하신 내용으로 이메일이 자동 구성됩니다.</p>
+      </form>
+
+      <div class="contact-card">
+        <h4>태산솔루션 담당자 연락처</h4>
+        <div class="contact-row"><span class="ic">🏢</span><div><b>대표</b>주식회사 태산솔루션 · 대표이사 박문철</div></div>
+        <div class="contact-row"><span class="ic">📞</span><div><b>전화</b><a href="tel:010-9485-9738">010-9485-9738</a></div></div>
+        <div class="contact-row"><span class="ic">📠</span><div><b>팩스</b>042-367-0042</div></div>
+        <div class="contact-row"><span class="ic">✉️</span><div><b>이메일</b><a href="mailto:taesanrec333@naver.com">taesanrec333@naver.com</a></div></div>
+        <div class="contact-row"><span class="ic">📍</span><div><b>사무실</b>대전광역시 서구 도안북로 88 (도안동)<br>목원대학교 창업진흥센터 O1관 312호 (우.35349)</div></div>
+        <div class="contact-row"><span class="ic">🏷️</span><div><b>공식 대리점</b>LOCTITE · Henkel</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand"><span class="dot"></span>태산솔루션</div>
+        <p class="footer-desc">헨켈·록타이트 공식 대리점으로 산업용 접착제 선정부터 견적, 기술자료 제공까지 지원합니다.</p>
+        <div class="footer-badges"><span>LOCTITE</span><span>Henkel</span></div>
+      </div>
+      <div class="footer-col">
+        <h5>서비스</h5>
+        <a href="#process">추천 프로세스</a>
+        <a href="#contact">견적 요청</a>
+        <a href="#contact">기술자료 요청</a>
+      </div>
+      <div class="footer-col">
+        <h5>회사소개</h5>
+        <p>주식회사 태산솔루션</p>
+        <p>대표이사 박문철</p>
+        <p>LOCTITE·Henkel 공식대리점</p>
+      </div>
+      <div class="footer-col">
+        <h5>고객센터</h5>
+        <a href="tel:010-9485-9738">010-9485-9738</a>
+        <a href="mailto:taesanrec333@naver.com">taesanrec333@naver.com</a>
+        <p>Fax. 042-367-0042</p>
+        <p>평일 09:00 ~ 18:00</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Copyright ⓒ 주식회사 태산솔루션. All Rights Reserved.</span>
+      <span>대전광역시 서구 도안북로 88 목원대학교 창업진흥센터 O1관 312호</span>
+    </div>
+  </div>
+</footer>
+
+<div class="scroll-top" id="scroll-top" title="맨 위로">↑</div>
+
+<script>
+  const MATERIAL_LABELS = {
+    metal: '금속', plastic: '플라스틱', glass: '유리', rubber: '고무',
+    ceramic: '세라믹', wood: '목재', composite: '복합재(CFRP 등)'
+  };
+
+  const PRODUCT_FAMILIES = {
+    structural: {
+      label: '구조용 접착제 (Structural Adhesives)',
+      lineup: [
+        { name: 'LOCTITE EA 9394 AERO', capacity: '50 g E-Z Pak / 200 mL / 1 qt / 1 gal', desc: '2액형 페이스트 에폭시. 높은 전단강도와 내충격성이 필요한 금속 구조 접합에 사용됩니다.', url: 'https://next.henkel-adhesives.com/us/en/products/industrial-adhesives/central-pdp.html/loctite-ea-9394-aero/SAP_IB-69644.html' },
+        { name: 'LOCTITE AA 330', capacity: '25 mL / 50 g 키트', desc: '2액형 구조용 아크릴 접착제. 표면처리가 최소화된 상태에서도 이종 소재 접합이 가능합니다.', url: 'https://next.henkel-adhesives.com/us/en/products/industrial-adhesives/central-pdp.html/loctite-aa-330/BP000000153526.html' },
+        { name: 'LOCTITE EA 3430', capacity: '24 mL 트윈 시린지', desc: '투명 2액형 에폭시. 외관이 중요한 유리-금속 등 구조 접합부에 사용됩니다.', url: 'https://next.henkel-adhesives.com/sk/en/products/industrial-adhesives/central-pdp.html/loctite-ea-3430/1000396.html' }
+      ]
+    },
+    threadlocker: {
+      label: '스레드락커 / 리테이닝 컴파운드 (Threadlockers & Retaining Compounds)',
+      lineup: [
+        { name: 'LOCTITE 243', capacity: '10 mL / 50 mL / 250 mL', desc: '중강도 혐기성 스레드락커. 오일이 묻은 표면에도 사용 가능하며 일반 공구로 재분해가 가능합니다.', url: 'https://next.henkel-adhesives.com/kr/ko/products/industrial-adhesives/central-pdp.html/loctite-243/BP000000316211/variation/1311322.html' },
+        { name: 'LOCTITE 270', capacity: '50 mL / 250 mL', desc: '고강도 혐기성 스레드락커. 진동이 심한 환경에서 볼트 풀림을 방지합니다.', url: 'https://next.henkel-adhesives.com/in/en/products/industrial-adhesives/central-pdp.html/loctite-270/346906AG.html' },
+        { name: 'LOCTITE 648', capacity: '10 mL / 50 mL / 1 L', desc: '고강도 리테이닝 컴파운드. 축과 구멍 사이 원통형 부품을 견고하게 고정합니다.', url: 'https://next.henkel-adhesives.com/us/en/products/industrial-adhesives/central-pdp.html/loctite-648/BP000000450730.html' }
+      ]
+    },
+    instant: {
+      label: '순간접착제 (Instant Adhesives)',
+      lineup: [
+        { name: 'LOCTITE 401', capacity: '20 g / 50 g', desc: '범용 순간접착제(시아노아크릴레이트). 고무·플라스틱·금속 등 다양한 소재를 빠르게 접착합니다.', url: 'https://next.henkel-adhesives.com/us/en/products/industrial-adhesives/central-pdp.html/loctite-401/BP000000153529.html' },
+        { name: 'LOCTITE 460', capacity: '20 g / 50 g / 500 g', desc: '저백화 순간접착제. 접착 부위 주변 백화(블루밍) 현상을 최소화해 외관이 중요한 부품에 적합합니다.', url: 'https://next.henkel-adhesives.com/us/en/products/industrial-adhesives/central-pdp.html/loctite-460/BP000000153538.html' },
+        { name: 'LOCTITE 3090', capacity: '약 10 g (겔 시린지)', desc: '겔 타입 갭필링 순간접착제. 틈새를 메우며 정밀한 위치 조정이 가능합니다.', url: 'https://next.henkel-adhesives.com/de/de/products/industrial-adhesives/central-pdp.html/loctite-3090/SAP_IB-90706.html' }
+      ]
+    },
+    lightcure: {
+      label: 'UV / 광경화형 접착제 (Light Curing Adhesives)',
+      lineup: [
+        { name: 'LOCTITE AA 3311', capacity: '1 L', desc: 'UV 경화형 아크릴 접착제. 365nm 파장 조사 시 수 초 내 완전 경화되며 글라스·PC 소재 투명 본딩에 적합합니다.', url: 'https://next.henkel-adhesives.com/us/en/products/industrial-adhesives/central-pdp.html/loctite-aa-3311/313520.html' },
+        { name: 'LOCTITE AA 3321', capacity: '25 mL 시린지', desc: 'UV 경화형 아크릴 접착제. 투명도와 접착강도를 함께 요구하는 광학부품 본딩에 사용됩니다.', url: 'https://next.henkel-adhesives.com/us/en/products/industrial-adhesives/central-pdp.html/loctite-aa-3321/55332IB.html' },
+        { name: 'LOCTITE AA 3341', capacity: '25 mL 시린지 / 1 L', desc: 'UV 경화형 아크릴 접착제. 빛이 닿지 않는 그림자 부위까지 정밀 본딩이 필요한 부품에 적합합니다.', url: 'https://next.henkel-adhesives.com/us/en/products/industrial-adhesives/central-pdp.html/loctite-aa-3341/55344IB.html' }
+      ]
+    },
+    sealant: {
+      label: '실런트 / 개스킷 (Sealants & Gasketing)',
+      lineup: [
+        { name: 'LOCTITE SI 5145', capacity: '3 oz 튜브 / 300 mL', desc: 'RTV 실리콘 실런트. 하우징 커버, 커넥터 등의 방수·방진 밀봉에 사용됩니다.', url: 'https://next.henkel-adhesives.com/in/en/products/industrial-sealants/central-pdp.html/loctite-si-5145/SAP_IB-68160.html' },
+        { name: 'LOCTITE SI 5900', capacity: '300 mL 카트리지', desc: '액상 개스킷(FIP, Form-In-Place). 정밀한 두께 조절이 가능해 플랜지 결합부 밀봉에 적합합니다.', url: 'https://next.henkel-adhesives.com/us/en/products/industrial-sealants/central-pdp.html/loctite-si-5900/superflex5900.html' },
+        { name: 'LOCTITE SI 5910', capacity: '300 mL 카트리지', desc: '액상 개스킷(CIP, Cure-In-Place). 조립 전 미리 도포해 경화시키는 방식의 밀봉에 사용됩니다.', url: 'https://next.henkel-adhesives.com/us/en/products/industrial-sealants/central-pdp.html/loctite-si-5910/BP000000152856.html' }
+      ]
+    },
+    epoxy: {
+      label: '에폭시 / 포팅제 (Epoxies & Potting Compounds)',
+      lineup: [
+        { name: 'LOCTITE EA 9483 (구 Hysol 9483)', capacity: '50 mL (2:1 듀얼 카트리지)', desc: '2액형 상온 경화 에폭시. 높은 접착강도와 내충격성으로 구조 접합 및 조립에 사용됩니다.', url: 'https://next.henkel-adhesives.com/ch/fr/products/industrial-adhesives/central-pdp.html/loctite-ea-9483/SAP_IB-56722.html' },
+        { name: 'LOCTITE ECCOBOND FP4531', capacity: '2 cc / 5 cc / 30 mL 시린지', desc: '전자부품 언더필/포팅용 에폭시 인캡슐런트. 커넥터, PCB 모듈 등의 방수·절연 충전(포팅)에 사용됩니다.', url: 'https://next.henkel-adhesives.com/us/en/products/compounds-for-electronics/central-pdp.html/loctite-eccobond-fp4531/68809IB.html' },
+        { name: 'LOCTITE EA 9309NA AERO', capacity: '50 g / 1 qt 키트', desc: '내열성·내약품성 에폭시 페이스트. 고온 환경 및 화학물질 노출이 있는 금속 부품의 절연·보호 접합에 사용됩니다.', url: 'https://next.henkel-adhesives.com/us/en/products/industrial-adhesives/central-pdp.html/loctite-ea-9309na/53583IB.html' }
+      ]
+    }
+  };
+
+  const RECO_MATRIX = {
+    'ceramic|ceramic': { category: 'structural', desc: '세라믹-세라믹 접합은 내열성이 좋은 2액형 구조용 에폭시가 적합합니다.' },
+    'ceramic|composite': { category: 'structural', desc: '세라믹-복합재 접합에는 접착강도와 내열성을 갖춘 구조용 에폭시가 적합합니다.' },
+    'ceramic|glass': { category: 'lightcure', desc: '세라믹-유리 조합은 투명성과 정밀 경화가 가능한 UV 경화형 접착제가 적합합니다.' },
+    'ceramic|metal': { category: 'structural', desc: '세라믹-금속 접합에는 열팽창 차이를 견디는 구조용 에폭시가 적합합니다.' },
+    'ceramic|plastic': { category: 'structural', desc: '세라믹-플라스틱 접합에는 유연성 있는 구조용 에폭시 또는 아크릴 접착제가 적합합니다.' },
+    'ceramic|rubber': { category: 'sealant', desc: '세라믹-고무 접합에는 유연한 실리콘(RTV) 실런트가 적합합니다.' },
+    'ceramic|wood': { category: 'structural', desc: '세라믹-목재 접합에는 침투성이 좋은 구조용 에폭시가 적합합니다.' },
+    'composite|composite': { category: 'structural', desc: '복합재(CFRP)-복합재 접합에는 유연성과 강도를 겸비한 구조용 아크릴 접착제가 적합합니다.' },
+    'composite|glass': { category: 'lightcure', desc: '복합재-유리 접합에는 UV 경화형 접착제가 적합합니다.' },
+    'composite|metal': { category: 'structural', desc: '금속-복합재 이종 접합에는 표면처리가 적은 구조용 아크릴 접착제가 적합합니다.' },
+    'composite|plastic': { category: 'structural', desc: '복합재-플라스틱 접합에는 구조용 아크릴 접착제가 적합합니다.' },
+    'composite|rubber': { category: 'sealant', desc: '복합재-고무 접합에는 유연한 실런트가 적합합니다.' },
+    'composite|wood': { category: 'structural', desc: '복합재-목재 접합에는 구조용 에폭시가 적합합니다.' },
+    'glass|glass': { category: 'lightcure', desc: '유리-유리 접합은 투명 UV 경화형 접착제가 적합합니다.' },
+    'glass|metal': { category: 'structural', desc: '유리-금속 접합에는 투명 2액형 구조용 에폭시가 적합합니다.' },
+    'glass|plastic': { category: 'lightcure', desc: '유리-플라스틱(예: 렌즈 본딩) 접합에는 UV 경화형 접착제가 적합합니다.' },
+    'glass|rubber': { category: 'sealant', desc: '유리-고무 접합에는 RTV 실리콘 실런트가 적합합니다.' },
+    'glass|wood': { category: 'structural', desc: '유리-목재 접합에는 구조용 에폭시가 적합합니다.' },
+    'metal|metal': { category: 'threadlocker', desc: '금속-금속 체결에는 혐기성 스레드락커(볼트 고정)가 적합하며, 면 접합에는 구조용 에폭시도 함께 검토할 수 있습니다.' },
+    'metal|plastic': { category: 'structural', desc: '금속-플라스틱 이종 접합에는 표면처리가 최소화된 구조용 아크릴 접착제가 적합합니다.' },
+    'metal|rubber': { category: 'instant', desc: '금속-고무 접합에는 저백화 순간접착제가 적합합니다.' },
+    'metal|wood': { category: 'structural', desc: '금속-목재 접합에는 구조용 에폭시가 적합합니다.' },
+    'plastic|plastic': { category: 'instant', desc: '플라스틱-플라스틱 접합에는 순간접착제가 적합하며, 투명 본딩이 필요하면 UV 경화형 접착제도 검토할 수 있습니다.' },
+    'plastic|rubber': { category: 'instant', desc: '플라스틱-고무 접합에는 저백화 순간접착제가 적합합니다.' },
+    'plastic|wood': { category: 'instant', desc: '플라스틱-목재 접합에는 순간접착제가 적합하며, 대면적 접합에는 구조용 에폭시도 검토할 수 있습니다.' },
+    'rubber|rubber': { category: 'sealant', desc: '고무-고무 접합에는 유연한 실런트가 적합하며, 소면적 접합에는 순간접착제도 검토할 수 있습니다.' },
+    'rubber|wood': { category: 'instant', desc: '고무-목재 접합에는 순간접착제가 적합합니다.' },
+    'wood|wood': { category: 'structural', desc: '목재-목재 접합에는 구조용 에폭시 또는 아크릴 접착제가 적합합니다.' }
+  };
+
+  function getRecoKey(a, b) {
+    return [a, b].sort().join('|');
+  }
+
+  const ENV_INFO = {
+    high_temp: { label: '고온 (50℃ 이상)', note: '내열 등급 제품 검토가 필요합니다.' },
+    low_temp: { label: '저온 (0℃ 이하)', note: '저온에서도 유연성이 유지되는 제품이 필요합니다.' },
+    outdoor: { label: '실외 / 자외선 노출', note: '내후성(UV 저항) 등급 제품이 필요합니다.' },
+    moisture: { label: '다습 / 방수 필요', note: '방수·내습성 실런트 또는 코팅이 필요할 수 있습니다.' },
+    vibration: { label: '진동 / 충격 있음', note: '내충격성이 높은 유연한 접착제가 필요합니다.' },
+    chemical: { label: '화학물질 노출', note: '내약품성 등급 확인이 필요합니다.' },
+    insulation: { label: '전기 절연 필요', note: '절연 특성을 가진 제품(예: 에폭시 포팅제)이 필요합니다.' }
+  };
+
+  function getSelectedEnvs() {
+    return [...document.querySelectorAll('.env-input:checked')].map(el => el.value);
+  }
+
+  function renderLineupItem(p) {
+    return `<div class="lineup-item">
+      <div class="lineup-name">${p.name}</div>
+      <div class="lineup-capacity">📦 용량: ${p.capacity}</div>
+      <div class="lineup-desc">${p.desc}</div>
+      <a class="lineup-link" href="${p.url}" target="_blank" rel="noopener noreferrer">헨켈 공식 사이트에서 실물 사진·상세정보 보기 ↗</a>
+    </div>`;
+  }
+
+  function updateReco() {
+    const m1 = document.getElementById('material1').value;
+    const m2 = document.getElementById('material2').value;
+    const box = document.getElementById('reco-box');
+    if (!m1 || !m2) {
+      box.style.display = 'none';
+      return;
+    }
+    const reco = RECO_MATRIX[getRecoKey(m1, m2)];
+    if (!reco) {
+      box.style.display = 'none';
+      return;
+    }
+    const family = PRODUCT_FAMILIES[reco.category];
+    document.getElementById('reco-title').textContent = family.label;
+    document.getElementById('reco-desc').textContent = `${MATERIAL_LABELS[m1]} + ${MATERIAL_LABELS[m2]} 조합 — ${reco.desc}`;
+    document.getElementById('reco-lineup-list').innerHTML = family.lineup.map(renderLineupItem).join('');
+
+    const envs = getSelectedEnvs();
+    const envBox = document.getElementById('reco-env');
+    const envList = document.getElementById('reco-env-list');
+    if (envs.length) {
+      envList.innerHTML = envs.map(v => `<li>${ENV_INFO[v].label}: ${ENV_INFO[v].note}</li>`).join('');
+      envBox.style.display = 'block';
+    } else {
+      envBox.style.display = 'none';
+    }
+
+    const extraBox = document.getElementById('reco-extra');
+    if (envs.includes('insulation') && reco.category !== 'epoxy') {
+      const epoxy = PRODUCT_FAMILIES.epoxy;
+      extraBox.innerHTML = `<div class="reco-extra-label">🔌 전기 절연이 필요하신 경우 — ${epoxy.label}</div>` +
+        epoxy.lineup.map(renderLineupItem).join('');
+      extraBox.style.display = 'block';
+    } else {
+      extraBox.style.display = 'none';
+    }
+
+    box.style.display = 'block';
+  }
+
+  document.getElementById('material1').addEventListener('change', updateReco);
+  document.getElementById('material2').addEventListener('change', updateReco);
+  document.querySelectorAll('.env-input').forEach(el => el.addEventListener('change', updateReco));
+
+  const fileDrop = document.getElementById('file-drop');
+  const photoInput = document.getElementById('photo');
+  const fileName = document.getElementById('file-name');
+  fileDrop.addEventListener('click', () => photoInput.click());
+  photoInput.addEventListener('change', () => {
+    if (photoInput.files.length) {
+      fileName.textContent = Array.from(photoInput.files).map(f => f.name).join(', ') + ' 첨부됨';
+    } else {
+      fileName.textContent = '';
+    }
+  });
+
+  document.getElementById('inquiry-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const company = document.getElementById('company').value.trim();
+    const manager = document.getElementById('manager').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const m1 = document.getElementById('material1').value;
+    const m2 = document.getElementById('material2').value;
+    const materialText = m1 && m2 ? `${MATERIAL_LABELS[m1]} + ${MATERIAL_LABELS[m2]}` : '-';
+    const reco = m1 && m2 ? RECO_MATRIX[getRecoKey(m1, m2)] : null;
+    const envs = getSelectedEnvs();
+    const envText = envs.length ? envs.map(v => ENV_INFO[v].label).join(', ') : '-';
+    const app = document.getElementById('app').value.trim();
+    const detail = document.getElementById('detail').value.trim();
+
+    const bodyLines = [
+      `1. 고객사: ${company}`,
+      `2. APP: ${app || '-'}`,
+      `3. 담당자: ${manager} (${phone})`,
+      `4. 이메일: ${email || '-'}`,
+      `5. 피착재 조합: ${materialText}`,
+      `6. 작업 환경: ${envText}`,
+      `7. 자동 추천 결과: ${reco ? PRODUCT_FAMILIES[reco.category].label : '-'}`,
+      `8. 요청사항 / 사용 환경: ${detail || '-'}`,
+      ``,
+      `※ 접착 부위 사진은 이메일에 직접 첨부해 주세요.`
+    ];
+    const subject = encodeURIComponent(`[접착제 추천 요청] ${company} - ${materialText}`);
+    const body = encodeURIComponent(bodyLines.join('\n'));
+    window.location.href = `mailto:taesanrec333@naver.com?subject=${subject}&body=${body}`;
+
+    document.getElementById('submit-msg').classList.add('show');
+  });
+
+  const scrollTop = document.getElementById('scroll-top');
+  window.addEventListener('scroll', () => {
+    scrollTop.style.display = window.scrollY > 400 ? 'flex' : 'none';
+  });
+  scrollTop.style.display = 'none';
+  scrollTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+</script>
+
+</body>
+</html>
