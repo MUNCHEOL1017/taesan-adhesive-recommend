@@ -104,6 +104,13 @@
   .reco-title { font-size: 16px; font-weight: 800; color: var(--navy); margin-bottom: 6px; }
   .reco-desc { font-size: 13.5px; color: #424242; margin-bottom: 10px; line-height: 1.6; }
   .reco-note { font-size: 11.5px; color: var(--gray); line-height: 1.5; }
+  .reco-divider { display: flex; align-items: center; text-align: center; margin: 28px 0; color: var(--gray); font-size: 12.5px; font-weight: 700; }
+  .reco-divider::before, .reco-divider::after { content: ''; flex: 1; border-top: 1px solid var(--gray-border); }
+  .reco-divider span { padding: 0 14px; }
+  .competitor-search-row { display: flex; gap: 8px; }
+  .competitor-search-row input { flex: 1; padding: 12px 14px; border: 1.5px solid var(--gray-border); border-radius: 10px; font-size: 14px; outline: none; }
+  .competitor-search-row input:focus { border-color: var(--red); }
+  .competitor-search-row .btn { flex-shrink: 0; padding: 12px 22px; }
   .env-options { display: flex; flex-wrap: wrap; gap: 8px; }
   .env-chip { display: inline-flex; cursor: pointer; }
   .env-chip input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: -1px; }
@@ -244,6 +251,29 @@
         </div>
         <div class="reco-extra" id="reco-extra" style="display:none;"></div>
         <div class="reco-note">※ 위 추천은 소재 조합을 기준으로 한 1차 참고용입니다. 실제 사용 환경(온도·하중·경화조건 등)에 따라 태산솔루션 담당자가 헨켈 기술팀과 함께 최종 확인해 드립니다.</div>
+      </div>
+    </div>
+
+    <div class="reco-divider"><span>또는</span></div>
+
+    <div class="field">
+      <label>현재 사용 중인 타사(경쟁사) 제품명 입력</label>
+      <div class="competitor-search-row">
+        <input type="text" id="competitor-input" placeholder="예) 쓰리본드 1211, 3M 순간접착제, 퍼마텍스 24027, 알테코 등" />
+        <button type="button" class="btn btn-primary" id="competitor-search-btn">검색</button>
+      </div>
+      <p class="form-note">브랜드명, 제품 코드, 용도(예: 스레드락커·순간접착제·실리콘 실런트) 중 아는 것을 자유롭게 입력하세요.</p>
+    </div>
+    <div class="field" id="competitor-box" style="display:none; margin-top:16px;">
+      <div class="reco-card">
+        <div class="reco-label" id="competitor-label">🔁 타사 제품 대응 검색 결과</div>
+        <div class="reco-title" id="competitor-title"></div>
+        <div class="reco-desc" id="competitor-desc"></div>
+        <div class="reco-lineup" id="competitor-lineup-wrap">
+          <div class="reco-lineup-label">📦 헨켈 대응 제품 라인업 (추천 우선순위 순)</div>
+          <div id="competitor-lineup-list"></div>
+        </div>
+        <div class="reco-note">※ 브랜드명·용도 키워드를 기반으로 한 1차 유사 제품군 매칭입니다. 정확한 1:1 대체 여부는 태산솔루션 담당자가 헨켈 기술팀과 함께 최종 확인해 드립니다.</div>
       </div>
     </div>
   </div>
@@ -480,6 +510,73 @@
   function getSelectedEnvs() {
     return [...document.querySelectorAll('.env-input:checked')].map(el => el.value);
   }
+
+  // 검증된 실제 크로스 레퍼런스(헨켈/Permatex 공식 자료 기준). 정확히 일치하는 경쟁사 제품/코드를 우선 매칭합니다.
+  const COMPETITOR_EXACT = [
+    { keys: ['24027', '퍼마텍스 24027', 'permatex 24027', 'surface insensitive threadlocker blue'], category: 'threadlocker', note: 'Permatex 24027(Surface Insensitive Threadlocker Blue)의 공식 대응 제품은 LOCTITE 243입니다.' },
+    { keys: ['24200', 'permatex 24200', 'medium strength threadlocker blue'], category: 'threadlocker', note: 'Permatex 24200(Medium Strength Threadlocker Blue)과 같은 중강도 등급인 LOCTITE 243/242 계열이 대응됩니다.' },
+    { keys: ['27100', 'permatex 27100', 'high strength threadlocker red'], category: 'threadlocker', note: 'Permatex 27100(High Strength Threadlocker Red)과 같은 고강도 등급인 LOCTITE 270이 대응됩니다.' },
+    { keys: ['29000', 'permatex 29000', 'penetrating grade threadlocker'], category: 'threadlocker', note: 'Permatex 29000(침투형 그린 나사고정제)과 유사한 혐기성 나사고정제 라인입니다.' },
+    { keys: ['51813', 'permatex 51813', 'anaerobic gasket maker'], category: 'sealant', note: 'Permatex 51813(Anaerobic Gasket Maker)과 같은 혐기성 액상 개스킷 계열입니다.' },
+    { keys: ['54540', 'permatex 54540', 'hydraulic pneumatic sealant'], category: 'sealant', note: 'Permatex 54540(유압/공압 실런트)과 같은 실링 계열입니다.' }
+  ];
+
+  // 브랜드명·용도 키워드 기반 카테고리 매칭 (정확한 코드가 없을 때의 보조 판단용).
+  const COMPETITOR_KEYWORDS = [
+    { words: ['나사', '볼트', '풀림방지', '풀림 방지', 'threadlock', '스레드락'], category: 'threadlocker' },
+    { words: ['베어링', '부싱', '리테이닝', 'retaining', '원통형'], category: 'threadlocker' },
+    { words: ['순간접착', '시아노', 'cyanoacrylate', 'ca글루', 'ca 글루', '알테코', 'alteco', '502', '강력본드', '만능본드'], category: 'instant' },
+    { words: ['실런트', '실리콘', 'rtv', 'silicone', 'sealant', '개스킷', 'gasket', '실리콘실런트'], category: 'sealant' },
+    { words: ['uv', '자외선', '광경화', 'uv경화', 'uv 경화', 'light cure', '렌즈'], category: 'lightcure' },
+    { words: ['포팅', 'potting', '언더필', 'underfill', 'pcb', '전자부품', '절연코팅'], category: 'epoxy' },
+    { words: ['구조용', '에폭시', 'epoxy', '2액형', '2액형에폭시'], category: 'structural' }
+  ];
+
+  function searchCompetitorMatch(raw) {
+    const q = raw.trim().toLowerCase();
+    if (!q) return null;
+    for (const entry of COMPETITOR_EXACT) {
+      if (entry.keys.some(k => q.includes(k))) {
+        return { category: entry.category, exact: true, note: entry.note };
+      }
+    }
+    for (const entry of COMPETITOR_KEYWORDS) {
+      if (entry.category && entry.words.some(w => q.includes(w))) {
+        return { category: entry.category, exact: false, note: null };
+      }
+    }
+    return null;
+  }
+
+  function renderCompetitorResult(input) {
+    const box = document.getElementById('competitor-box');
+    const result = searchCompetitorMatch(input);
+    if (!result) {
+      document.getElementById('competitor-label').textContent = '🔁 타사 제품 대응 검색 결과';
+      document.getElementById('competitor-title').textContent = '일치하는 제품군을 찾지 못했습니다';
+      document.getElementById('competitor-desc').textContent = '입력하신 내용만으로는 자동 매칭이 어렵습니다. 제품 사진이나 용도를 함께 알려주시면 태산솔루션 담당자가 직접 확인해 드립니다.';
+      document.getElementById('competitor-lineup-wrap').style.display = 'none';
+      box.style.display = 'block';
+      return;
+    }
+    const family = PRODUCT_FAMILIES[result.category];
+    document.getElementById('competitor-label').textContent = result.exact ? '🔁 공식 크로스 레퍼런스 매칭' : '🔁 용도 키워드 기반 매칭';
+    document.getElementById('competitor-title').textContent = family.label;
+    document.getElementById('competitor-desc').textContent = result.note || `입력하신 "${input}"과(와) 용도가 유사한 헨켈 제품군입니다.`;
+    document.getElementById('competitor-lineup-wrap').style.display = 'block';
+    document.getElementById('competitor-lineup-list').innerHTML = family.lineup.map(renderLineupItem).join('');
+    box.style.display = 'block';
+  }
+
+  document.getElementById('competitor-search-btn').addEventListener('click', () => {
+    renderCompetitorResult(document.getElementById('competitor-input').value);
+  });
+  document.getElementById('competitor-input').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      renderCompetitorResult(document.getElementById('competitor-input').value);
+    }
+  });
 
   function renderLineupItem(p, idx) {
     const rank = idx + 1;
