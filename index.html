@@ -123,6 +123,7 @@
   .reco-lineup { margin-bottom: 12px; }
   .reco-lineup-label { font-size: 12px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
   .lineup-item { background: #fff; border: 1px solid #f0d3d6; border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; position: relative; }
+  .lineup-category { font-size: 11px; font-weight: 800; color: var(--red); text-transform: uppercase; letter-spacing: .02em; margin-bottom: 4px; }
   .lineup-item:last-child { margin-bottom: 0; }
   .lineup-item .lineup-rank { position: absolute; top: 10px; right: 12px; font-size: 10.5px; font-weight: 800; background: var(--navy); color: #fff; padding: 3px 8px; border-radius: 999px; }
   .lineup-item .lineup-name { font-weight: 800; font-size: 13.5px; color: var(--red); margin-bottom: 2px; padding-right: 50px; }
@@ -532,17 +533,36 @@
     { words: ['구조용', '에폭시', 'epoxy', '2액형', '2액형에폭시'], category: 'structural' }
   ];
 
+  // 브랜드명만 입력했을 때도 결과가 나오도록, 국내에서 자주 언급되는 경쟁사 브랜드명을 별도로 인식합니다.
+  const COMPETITOR_BRANDS = [
+    { keys: ['3m', '쓰리엠', '스카치웰드', 'scotch-weld', 'scotch weld'], label: '3M' },
+    { keys: ['쓰리본드', 'threebond', 'three bond'], label: '쓰리본드(ThreeBond)' },
+    { keys: ['퍼마텍스', 'permatex'], label: '퍼마텍스(Permatex)' },
+    { keys: ['데브콘', 'devcon'], label: '데브콘(Devcon)' },
+    { keys: ['시카', 'sika', '시카플렉스', 'sikaflex'], label: '시카(Sika)' },
+    { keys: ['고릴라', 'gorilla'], label: '고릴라(Gorilla)' },
+    { keys: ['타이트본드', 'titebond'], label: '타이트본드(Titebond)' },
+    { keys: ['다우코닝', 'dow corning', '다우실'], label: '다우코닝(Dow Corning)' },
+    { keys: ['신에츠', 'shin-etsu', 'shinetsu'], label: '신에츠(Shin-Etsu)' },
+    { keys: ['알테코', 'alteco'], label: '알테코(Alteco)' }
+  ];
+
   function searchCompetitorMatch(raw) {
     const q = raw.trim().toLowerCase();
     if (!q) return null;
     for (const entry of COMPETITOR_EXACT) {
       if (entry.keys.some(k => q.includes(k))) {
-        return { category: entry.category, exact: true, note: entry.note };
+        return { type: 'exact', category: entry.category, note: entry.note };
       }
     }
     for (const entry of COMPETITOR_KEYWORDS) {
       if (entry.category && entry.words.some(w => q.includes(w))) {
-        return { category: entry.category, exact: false, note: null };
+        return { type: 'keyword', category: entry.category };
+      }
+    }
+    for (const entry of COMPETITOR_BRANDS) {
+      if (entry.keys.some(k => q.includes(k))) {
+        return { type: 'brand', brand: entry.label };
       }
     }
     return null;
@@ -551,6 +571,7 @@
   function renderCompetitorResult(input) {
     const box = document.getElementById('competitor-box');
     const result = searchCompetitorMatch(input);
+
     if (!result) {
       document.getElementById('competitor-label').textContent = '🔁 타사 제품 대응 검색 결과';
       document.getElementById('competitor-title').textContent = '일치하는 제품군을 찾지 못했습니다';
@@ -559,8 +580,29 @@
       box.style.display = 'block';
       return;
     }
+
+    if (result.type === 'brand') {
+      document.getElementById('competitor-label').textContent = '🔁 브랜드 전체 제품군 매칭';
+      document.getElementById('competitor-title').textContent = `${result.brand}은(는) 여러 제품군에 걸쳐 있습니다`;
+      document.getElementById('competitor-desc').textContent = '어떤 용도(스레드락커·순간접착제·실런트·구조용·UV경화형·포팅제)인지 함께 입력하시면 더 정확한 1순위 제품을 보여드립니다. 우선 각 제품군별 1순위 제품을 안내해 드립니다.';
+      document.getElementById('competitor-lineup-wrap').style.display = 'block';
+      document.getElementById('competitor-lineup-list').innerHTML = Object.keys(PRODUCT_FAMILIES).map(key => {
+        const fam = PRODUCT_FAMILIES[key];
+        const top = fam.lineup[0];
+        return `<div class="lineup-item">
+          <div class="lineup-category">${fam.label.split(' (')[0]}</div>
+          <div class="lineup-name">${top.name}</div>
+          <div class="lineup-capacity">📦 용량: ${top.capacity}</div>
+          <div class="lineup-desc">${top.desc}</div>
+          <a class="lineup-link" href="${top.url}" target="_blank" rel="noopener noreferrer">헨켈 공식 사이트에서 실물 사진·상세정보 보기 ↗</a>
+        </div>`;
+      }).join('');
+      box.style.display = 'block';
+      return;
+    }
+
     const family = PRODUCT_FAMILIES[result.category];
-    document.getElementById('competitor-label').textContent = result.exact ? '🔁 공식 크로스 레퍼런스 매칭' : '🔁 용도 키워드 기반 매칭';
+    document.getElementById('competitor-label').textContent = result.type === 'exact' ? '🔁 공식 크로스 레퍼런스 매칭' : '🔁 용도 키워드 기반 매칭';
     document.getElementById('competitor-title').textContent = family.label;
     document.getElementById('competitor-desc').textContent = result.note || `입력하신 "${input}"과(와) 용도가 유사한 헨켈 제품군입니다.`;
     document.getElementById('competitor-lineup-wrap').style.display = 'block';
