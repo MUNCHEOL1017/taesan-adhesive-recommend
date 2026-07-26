@@ -640,12 +640,14 @@
       document.getElementById('competitor-desc').textContent = '입력하신 내용만으로는 자동 매칭이 어렵습니다. 제품 사진이나 용도를 함께 알려주시면 태산솔루션 담당자가 직접 확인해 드립니다.';
       document.getElementById('competitor-lineup-wrap').style.display = 'none';
       box.style.display = 'block';
+      competitorRecoState = { label: '일치하는 제품군을 찾지 못함 (타사 제품 검색)', updatedAt: Date.now() };
       return;
     }
 
     if (result.type === 'brand') {
       document.getElementById('competitor-label').textContent = '🔁 브랜드 전체 제품군 매칭';
       document.getElementById('competitor-title').textContent = `${result.brand}은(는) 여러 제품군에 걸쳐 있습니다`;
+      competitorRecoState = { label: `${result.brand} — 여러 제품군 개요 제공 (타사 제품 검색)`, updatedAt: Date.now() };
       document.getElementById('competitor-desc').textContent = '어떤 용도(스레드락커·순간접착제·실런트·구조용·UV경화형·포팅제)인지 함께 입력하시면 더 정확한 1순위 제품을 보여드립니다. 우선 각 제품군별 1순위 제품을 안내해 드립니다.';
       document.getElementById('competitor-lineup-wrap').style.display = 'block';
       document.getElementById('competitor-lineup-list').innerHTML = Object.keys(PRODUCT_FAMILIES).map(key => {
@@ -670,6 +672,7 @@
     document.getElementById('competitor-lineup-wrap').style.display = 'block';
     document.getElementById('competitor-lineup-list').innerHTML = family.lineup.map(renderLineupItem).join('');
     box.style.display = 'block';
+    competitorRecoState = { label: family.label, updatedAt: Date.now() };
   }
 
   document.getElementById('competitor-search-btn').addEventListener('click', () => {
@@ -681,6 +684,17 @@
       renderCompetitorResult(document.getElementById('competitor-input').value);
     }
   });
+
+  // 피착재 선택 추천과 타사 제품 검색 추천 중, 화면에 실제로 마지막에 표시된 결과를 이메일/카톡 전송에 사용하기 위한 상태.
+  let materialRecoState = { label: null, updatedAt: 0 };
+  let competitorRecoState = { label: null, updatedAt: 0 };
+
+  function getActiveRecoLabel() {
+    if (!materialRecoState.label && !competitorRecoState.label) return '-';
+    return materialRecoState.updatedAt >= competitorRecoState.updatedAt
+      ? materialRecoState.label
+      : competitorRecoState.label;
+  }
 
   function renderLineupItem(p, idx) {
     const rank = idx + 1;
@@ -700,14 +714,17 @@
     const box = document.getElementById('reco-box');
     if (!m1 || !m2) {
       box.style.display = 'none';
+      materialRecoState = { label: null, updatedAt: 0 };
       return;
     }
     const reco = RECO_MATRIX[getRecoKey(m1, m2)];
     if (!reco) {
       box.style.display = 'none';
+      materialRecoState = { label: null, updatedAt: 0 };
       return;
     }
     const family = PRODUCT_FAMILIES[reco.category];
+    materialRecoState = { label: family.label, updatedAt: Date.now() };
     document.getElementById('reco-title').textContent = family.label;
     document.getElementById('reco-desc').textContent = `${MATERIAL_LABELS[m1]} + ${MATERIAL_LABELS[m2]} 조합 — ${reco.desc}`;
     document.getElementById('reco-lineup-list').innerHTML = family.lineup.map(renderLineupItem).join('');
@@ -759,12 +776,11 @@
     const m1 = document.getElementById('material1').value;
     const m2 = document.getElementById('material2').value;
     const materialText = m1 && m2 ? `${MATERIAL_LABELS[m1]} + ${MATERIAL_LABELS[m2]}` : '-';
-    const reco = m1 && m2 ? RECO_MATRIX[getRecoKey(m1, m2)] : null;
     const envs = getSelectedEnvs();
     const envText = envs.length ? envs.map(v => ENV_INFO[v].label).join(', ') : '-';
     const app = document.getElementById('app').value.trim();
     const detail = document.getElementById('detail').value.trim();
-    const recoLabel = reco ? PRODUCT_FAMILIES[reco.category].label : '-';
+    const recoLabel = getActiveRecoLabel();
     return { company, manager, phone, email, materialText, envText, app, detail, recoLabel };
   }
 
