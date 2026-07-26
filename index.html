@@ -140,8 +140,11 @@
   .lineup-item .lineup-capacity { font-size: 11.5px; color: var(--navy); font-weight: 600; margin-bottom: 4px; }
   .lineup-item .lineup-desc { font-size: 12px; color: #424242; line-height: 1.5; margin-bottom: 6px; }
   .lineup-item .lineup-reason { font-size: 11.5px; color: #6b5510; background: #fff8e6; border: 1px solid #f0e0ad; border-radius: 6px; padding: 6px 8px; line-height: 1.5; margin-bottom: 6px; }
+  .lineup-item .lineup-link-row { display: flex; flex-wrap: wrap; gap: 4px 14px; }
   .lineup-item .lineup-link { font-size: 11.5px; color: var(--red); font-weight: 700; text-decoration: underline; }
   .lineup-item .lineup-link:hover { color: var(--red-dark); }
+  .lineup-item .lineup-link-naver { color: #03C75A; }
+  .lineup-item .lineup-link-naver:hover { color: #029a47; }
   .reco-extra { margin-bottom: 12px; padding-top: 10px; border-top: 1px dashed #f0b8bf; }
   .reco-extra-label { font-size: 12px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
 
@@ -670,7 +673,10 @@
           <div class="lineup-name">${top.name}</div>
           <div class="lineup-capacity">📦 용량: ${top.capacity}</div>
           <div class="lineup-desc">${top.desc}</div>
-          <a class="lineup-link" href="${top.url}" target="_blank" rel="noopener noreferrer">헨켈 공식 사이트에서 실물 사진·상세정보 보기 ↗</a>
+          <div class="lineup-link-row">
+            <a class="lineup-link" href="${top.url}" target="_blank" rel="noopener noreferrer">헨켈 공식 사이트에서 실물 사진·상세정보 보기 ↗</a>
+            <a class="lineup-link lineup-link-naver" href="${naverLowestPriceUrl(top.name)}" target="_blank" rel="noopener noreferrer">🛒 네이버 최저가 5개 보기 ↗</a>
+          </div>
         </div>`;
       }).join('');
       box.style.display = 'block';
@@ -708,6 +714,10 @@
       : competitorRecoState.label;
   }
 
+  function naverLowestPriceUrl(productName) {
+    return `https://search.shopping.naver.com/search/all?query=${encodeURIComponent(productName)}&sort=price_asc`;
+  }
+
   function renderLineupItem(p, idx) {
     const rank = idx + 1;
     return `<div class="lineup-item">
@@ -716,7 +726,10 @@
       <div class="lineup-capacity">📦 용량: ${p.capacity}</div>
       <div class="lineup-desc">${p.desc}</div>
       <div class="lineup-reason">💡 ${rank}순위인 이유: ${p.reason}</div>
-      <a class="lineup-link" href="${p.url}" target="_blank" rel="noopener noreferrer">헨켈 공식 사이트에서 실물 사진·상세정보 보기 ↗</a>
+      <div class="lineup-link-row">
+        <a class="lineup-link" href="${p.url}" target="_blank" rel="noopener noreferrer">헨켈 공식 사이트에서 실물 사진·상세정보 보기 ↗</a>
+        <a class="lineup-link lineup-link-naver" href="${naverLowestPriceUrl(p.name)}" target="_blank" rel="noopener noreferrer">🛒 네이버 최저가 5개 보기 ↗</a>
+      </div>
     </div>`;
   }
 
