@@ -106,6 +106,10 @@
   .btn-kakao:hover { background: #f5dc00; }
   .btn-kakao:disabled { background: #f0e6a8; color: #999; cursor: not-allowed; }
   .reco-card { background: #fdf5f6; border: 1.5px solid #f6c9ce; border-radius: 10px; padding: 16px 18px; }
+  .detail-row { display: flex; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--gray-border); font-size: 14px; }
+  .detail-row:last-child { border-bottom: none; }
+  .detail-row b { min-width: 110px; flex-shrink: 0; color: var(--navy); }
+  .detail-row span { color: #424242; word-break: break-word; }
   .reco-label { font-size: 11.5px; font-weight: 800; color: var(--red); margin-bottom: 8px; letter-spacing: .02em; }
   .reco-title { font-size: 16px; font-weight: 800; color: var(--navy); margin-bottom: 6px; }
   .reco-desc { font-size: 13.5px; color: #424242; margin-bottom: 10px; line-height: 1.6; }
@@ -175,6 +179,21 @@
     </div>
   </div>
 </nav>
+
+<section id="inquiry-detail-view" style="display:none; background:var(--gray-light); padding:48px 0;">
+  <div class="container">
+    <div class="eyebrow">● 접수된 문의 내용</div>
+    <h2 class="section-title">고객이 전달한 접착제 추천 요청</h2>
+    <div class="form-wrap" style="grid-template-columns: 1fr;">
+      <div class="reco-card" style="background:#fff; border:1px solid var(--gray-border);">
+        <div id="detail-photo-wrap" style="display:none; margin-bottom:16px;">
+          <img id="detail-photo" src="" alt="첨부 사진" style="max-width:100%; border-radius:10px; display:block;" />
+        </div>
+        <div id="detail-fields"></div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <header class="hero">
   <div class="container hero-inner">
@@ -421,6 +440,33 @@
   if (window.Kakao && !Kakao.isInitialized()) {
     Kakao.init('f06d89572940a8dab82ffae6b04c5dbd');
   }
+
+  // 카카오톡 공유 카드의 "자세히 보기" 링크로 들어왔을 때, 전달된 문의 내용을 화면에 표시합니다.
+  (function renderInquiryDetailFromUrl() {
+    const raw = new URLSearchParams(window.location.search).get('inquiry');
+    if (!raw) return;
+    let d;
+    try {
+      d = JSON.parse(decodeURIComponent(raw));
+    } catch (err) {
+      console.error('Failed to parse inquiry detail:', err);
+      return;
+    }
+    const rows = [
+      ['고객사', d.company], ['담당자', d.manager], ['연락처', d.phone], ['이메일', d.email],
+      ['적용(APP)', d.app], ['피착재 조합', d.materialText], ['작업 환경', d.envText],
+      ['자동 추천 결과', d.recoLabel], ['요청사항', d.detail]
+    ];
+    document.getElementById('detail-fields').innerHTML = rows.map(([label, value]) =>
+      `<div class="detail-row"><b>${label}</b><span>${value || '-'}</span></div>`
+    ).join('');
+    if (d.imageUrl) {
+      document.getElementById('detail-photo').src = d.imageUrl;
+      document.getElementById('detail-photo-wrap').style.display = 'block';
+    }
+    document.getElementById('inquiry-detail-view').style.display = 'block';
+    document.getElementById('inquiry-detail-view').scrollIntoView();
+  })();
 
   const MATERIAL_LABELS = {
     metal: '금속', plastic: '플라스틱', glass: '유리', rubber: '고무',
@@ -764,6 +810,17 @@
     return json.data.url;
   }
 
+  const SITE_URL = 'https://muncheol1017.github.io/taesan-adhesive-recommend/';
+
+  function buildDetailUrl(d, imageUrl) {
+    const payload = {
+      company: d.company, manager: d.manager, phone: d.phone, email: d.email,
+      app: d.app, materialText: d.materialText, envText: d.envText,
+      recoLabel: d.recoLabel, detail: d.detail, imageUrl: imageUrl || ''
+    };
+    return SITE_URL + '?inquiry=' + encodeURIComponent(JSON.stringify(payload));
+  }
+
   // 카카오톡 공유는 별도의 독립된 버튼 클릭으로만 실행합니다.
   // 한 번의 클릭에서 다른 동작(예: mailto 이동)과 묶으면 브라우저가 "직접 연 팝업"으로 인정하지 않아 차단할 수 있기 때문입니다.
   kakaoBtn.addEventListener('click', async function () {
@@ -800,19 +857,19 @@
       }
     }
 
+    const detailUrl = buildDetailUrl(d, imageUrl);
+
     try {
       if (imageUrl) {
         Kakao.Share.sendDefault({
           objectType: 'feed',
           content: {
             title: '[접착제 추천 요청] ' + d.company,
-            description: kakaoTextLines.slice(1).join(' / '),
+            description: `${d.manager} (${d.phone}) · 피착재: ${d.materialText} — 자세히 보기에서 전체 내용을 확인하세요.`,
             imageUrl: imageUrl,
-            link: {
-              mobileWebUrl: 'https://muncheol1017.github.io/taesan-adhesive-recommend/',
-              webUrl: 'https://muncheol1017.github.io/taesan-adhesive-recommend/'
-            }
-          }
+            link: { mobileWebUrl: detailUrl, webUrl: detailUrl }
+          },
+          buttons: [{ title: '문의 내용 자세히 보기', link: { mobileWebUrl: detailUrl, webUrl: detailUrl } }]
         });
       } else {
         const fallbackNote = photoFiles.length
@@ -821,10 +878,7 @@
         Kakao.Share.sendDefault({
           objectType: 'text',
           text: kakaoTextLines.concat(['', fallbackNote]).join('\n'),
-          link: {
-            mobileWebUrl: 'https://muncheol1017.github.io/taesan-adhesive-recommend/',
-            webUrl: 'https://muncheol1017.github.io/taesan-adhesive-recommend/'
-          }
+          link: { mobileWebUrl: detailUrl, webUrl: detailUrl }
         });
       }
       const kakaoMsg = document.getElementById('kakao-msg');
