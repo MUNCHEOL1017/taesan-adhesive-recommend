@@ -362,7 +362,7 @@
           <button type="button" id="kakao-share-btn" class="btn btn-kakao btn-lg" style="margin-top:8px;" disabled>💬 카카오톡으로 보내기</button>
         </div>
         <div class="submit-msg" id="submit-msg">✅ 요청이 접수되었습니다. 이메일 앱이 열리면 첨부 사진을 함께 넣어 보내주세요. 태산솔루션이 확인 후 24시간 이내 회신드립니다.</div>
-        <div class="submit-msg" id="kakao-msg" style="background:#fdf3d9; color:#7a5b00; border-color:#f0d98c;">💬 카카오톡 공유 창이 뜨면 보내실 대화상대를 선택해 주세요. 접착 부위 사진은 카톡 공유로는 자동 전송이 안 되니, 대화창에서 직접 첨부해서 보내주세요.</div>
+        <div class="submit-msg" id="kakao-msg" style="background:#fdf3d9; color:#7a5b00; border-color:#f0d98c;">💬 카카오톡 공유 창이 뜨면 보내실 대화상대를 선택해 주세요.</div>
         <div class="submit-msg" id="kakao-error-msg" style="background:#ffe9e9; color:#c62828; border-color:#f5b5b5;">⚠️ 카카오톡 공유 창을 열지 못했습니다. 브라우저의 팝업 차단 설정을 확인해 주세요 (주소창 오른쪽에 팝업 차단 아이콘이 있다면 클릭 후 "항상 허용"을 선택해 주세요).</div>
         <p class="form-note">* 표시는 필수 입력 항목입니다. 제출 시 작성하신 내용으로 이메일이 자동 구성됩니다.</p>
       </form>
@@ -752,11 +752,23 @@
     kakaoBtn.disabled = false;
   }
 
+  const IMGBB_API_KEY = '947e1dee619460b83831c3331a913595';
+
+  async function uploadPhotoToImgBB(file) {
+    const formData = new FormData();
+    formData.append('key', IMGBB_API_KEY);
+    formData.append('image', file);
+    const res = await fetch('https://api.imgbb.com/1/upload', { method: 'POST', body: formData });
+    const json = await res.json();
+    if (!json.success) throw new Error('ImgBB upload failed');
+    return json.data.url;
+  }
+
   // 카카오톡 공유는 별도의 독립된 버튼 클릭으로만 실행합니다.
   // 한 번의 클릭에서 다른 동작(예: mailto 이동)과 묶으면 브라우저가 "직접 연 팝업"으로 인정하지 않아 차단할 수 있기 때문입니다.
-  kakaoBtn.addEventListener('click', function () {
+  kakaoBtn.addEventListener('click', async function () {
     const d = collectInquiryData();
-    const kakaoText = [
+    const kakaoTextLines = [
       `[접착제 추천 요청]`,
       `고객사: ${d.company} / 담당자: ${d.manager} (${d.phone})`,
       `이메일: ${d.email || '-'}`,
@@ -764,24 +776,62 @@
       `피착재 조합: ${d.materialText}`,
       `작업 환경: ${d.envText}`,
       `추천 제품군: ${d.recoLabel}`,
-      `요청사항: ${d.detail || '-'}`,
-      ``,
-      `※ 접착 부위 사진은 이 대화창에 직접 첨부해서 보내주세요.`
-    ].join('\n');
+      `요청사항: ${d.detail || '-'}`
+    ];
 
     document.getElementById('submit-msg').classList.remove('show');
     document.getElementById('kakao-error-msg').classList.remove('show');
+    document.getElementById('kakao-msg').classList.remove('show');
+
+    const photoFiles = document.getElementById('photo').files;
+    let imageUrl = null;
+
+    if (photoFiles.length) {
+      const originalLabel = kakaoBtn.textContent;
+      kakaoBtn.disabled = true;
+      kakaoBtn.textContent = '📤 사진 업로드 중...';
+      try {
+        imageUrl = await uploadPhotoToImgBB(photoFiles[0]);
+      } catch (err) {
+        console.error('ImgBB upload failed:', err);
+      } finally {
+        kakaoBtn.disabled = false;
+        kakaoBtn.textContent = originalLabel;
+      }
+    }
 
     try {
-      Kakao.Share.sendDefault({
-        objectType: 'text',
-        text: kakaoText,
-        link: {
-          mobileWebUrl: 'https://muncheol1017.github.io/taesan-adhesive-recommend/',
-          webUrl: 'https://muncheol1017.github.io/taesan-adhesive-recommend/'
-        }
-      });
-      document.getElementById('kakao-msg').classList.add('show');
+      if (imageUrl) {
+        Kakao.Share.sendDefault({
+          objectType: 'feed',
+          content: {
+            title: '[접착제 추천 요청] ' + d.company,
+            description: kakaoTextLines.slice(1).join(' / '),
+            imageUrl: imageUrl,
+            link: {
+              mobileWebUrl: 'https://muncheol1017.github.io/taesan-adhesive-recommend/',
+              webUrl: 'https://muncheol1017.github.io/taesan-adhesive-recommend/'
+            }
+          }
+        });
+      } else {
+        const fallbackNote = photoFiles.length
+          ? `※ 사진 업로드에 실패했습니다. 사진은 이 대화창에 직접 첨부해서 보내주세요.`
+          : `※ 접착 부위 사진은 이 대화창에 직접 첨부해서 보내주세요.`;
+        Kakao.Share.sendDefault({
+          objectType: 'text',
+          text: kakaoTextLines.concat(['', fallbackNote]).join('\n'),
+          link: {
+            mobileWebUrl: 'https://muncheol1017.github.io/taesan-adhesive-recommend/',
+            webUrl: 'https://muncheol1017.github.io/taesan-adhesive-recommend/'
+          }
+        });
+      }
+      const kakaoMsg = document.getElementById('kakao-msg');
+      kakaoMsg.textContent = imageUrl
+        ? '💬 카카오톡 공유 창이 뜨면 보내실 대화상대를 선택해 주세요. 첨부하신 사진도 함께 전송됩니다.'
+        : '💬 카카오톡 공유 창이 뜨면 보내실 대화상대를 선택해 주세요.' + (photoFiles.length ? ' (사진 업로드 실패 — 대화창에서 직접 첨부해 주세요.)' : '');
+      kakaoMsg.classList.add('show');
     } catch (err) {
       console.error('Kakao share failed:', err);
       document.getElementById('kakao-error-msg').classList.add('show');
