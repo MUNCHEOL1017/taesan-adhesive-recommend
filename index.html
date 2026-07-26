@@ -724,8 +724,9 @@
     ];
     const subject = encodeURIComponent(`[접착제 추천 요청] ${company} - ${materialText}`);
     const body = encodeURIComponent(bodyLines.join('\n'));
-    window.location.href = `mailto:taesanrec333@naver.com?subject=${subject}&body=${body}`;
 
+    // 카카오 공유 팝업은 window.open()을 사용하므로, 같은 클릭 안에서 mailto 이동보다 반드시 먼저 실행해야
+    // 브라우저가 "사용자가 직접 연 팝업"으로 인식해 차단하지 않습니다.
     try {
       if (window.Kakao && Kakao.isInitialized()) {
         const kakaoText = [
@@ -747,6 +748,8 @@
     } catch (err) {
       console.error('Kakao share failed:', err);
     }
+
+    window.location.href = `mailto:taesanrec333@naver.com?subject=${subject}&body=${body}`;
 
     document.getElementById('submit-msg').classList.add('show');
   });
