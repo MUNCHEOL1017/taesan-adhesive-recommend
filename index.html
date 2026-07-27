@@ -383,10 +383,11 @@
           <button type="submit" class="btn btn-primary btn-lg" style="margin-top:8px;">📧 이메일로 보내기</button>
           <button type="button" id="kakao-share-btn" class="btn btn-kakao btn-lg" style="margin-top:8px;" disabled>💬 카카오톡으로 보내기</button>
         </div>
-        <div class="submit-msg" id="submit-msg">✅ 요청이 접수되었습니다. 이메일 앱이 열리면 첨부 사진을 함께 넣어 보내주세요. 태산솔루션이 확인 후 24시간 이내 회신드립니다.</div>
+        <div class="submit-msg" id="submit-msg">✅ 요청이 태산솔루션 메일함으로 바로 전송되었습니다. 확인 후 24시간 이내 회신 드립니다.</div>
+        <div class="submit-msg" id="submit-error-msg" style="background:#ffe9e9; color:#c62828; border-color:#f5b5b5;">⚠️ 자동 전송에 실패했습니다. 대신 이메일 앱을 열어 드릴게요 — 뜨면 직접 "보내기"를 눌러주세요.</div>
         <div class="submit-msg" id="kakao-msg" style="background:#fdf3d9; color:#7a5b00; border-color:#f0d98c;">💬 카카오톡 공유 창이 뜨면 보내실 대화상대를 선택해 주세요.</div>
         <div class="submit-msg" id="kakao-error-msg" style="background:#ffe9e9; color:#c62828; border-color:#f5b5b5;">⚠️ 카카오톡 공유 창을 열지 못했습니다. 브라우저의 팝업 차단 설정을 확인해 주세요 (주소창 오른쪽에 팝업 차단 아이콘이 있다면 클릭 후 "항상 허용"을 선택해 주세요).</div>
-        <p class="form-note">* 표시는 필수 입력 항목입니다. 제출 시 작성하신 내용으로 이메일이 자동 구성됩니다.</p>
+        <p class="form-note">* 표시는 필수 입력 항목입니다. 제출 시 작성하신 내용과 첨부 사진이 태산솔루션 메일로 자동 전송됩니다.</p>
       </form>
 
       <div class="contact-card">
@@ -809,10 +810,9 @@
     return { company, manager, phone, email, materialText, envText, app, detail, recoLabel };
   }
 
-  document.getElementById('inquiry-form').addEventListener('submit', function (e) {
-    e.preventDefault();
-    const d = collectInquiryData();
+  const WEB3FORMS_ACCESS_KEY = '48062791-c7ca-4779-abe1-698c77e27ca3';
 
+  function sendViaMailtoFallback(d) {
     const bodyLines = [
       `1. 고객사: ${d.company}`,
       `2. APP: ${d.app || '-'}`,
@@ -828,10 +828,51 @@
     const subject = encodeURIComponent(`[접착제 추천 요청] ${d.company} - ${d.materialText}`);
     const body = encodeURIComponent(bodyLines.join('\n'));
     window.location.href = `mailto:taesanrec333@naver.com?subject=${subject}&body=${body}`;
+  }
 
+  document.getElementById('inquiry-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const d = collectInquiryData();
+    const submitBtn = this.querySelector('button[type=submit]');
+    const originalLabel = submitBtn.textContent;
+
+    document.getElementById('submit-msg').classList.remove('show');
+    document.getElementById('submit-error-msg').classList.remove('show');
     document.getElementById('kakao-error-msg').classList.remove('show');
     document.getElementById('kakao-msg').classList.remove('show');
-    document.getElementById('submit-msg').classList.add('show');
+
+    const formData = new FormData();
+    formData.append('access_key', WEB3FORMS_ACCESS_KEY);
+    formData.append('subject', `[접착제 추천 요청] ${d.company} - ${d.materialText}`);
+    formData.append('from_name', d.company || '태산솔루션 웹사이트 문의');
+    formData.append('고객사', d.company);
+    formData.append('담당자', d.manager);
+    formData.append('연락처', d.phone);
+    formData.append('이메일', d.email || '-');
+    formData.append('적용(APP)', d.app || '-');
+    formData.append('피착재 조합', d.materialText);
+    formData.append('작업 환경', d.envText);
+    formData.append('자동 추천 결과', d.recoLabel);
+    formData.append('요청사항', d.detail || '-');
+    const photoFiles = document.getElementById('photo').files;
+    for (const f of photoFiles) formData.append('attachment', f);
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = '📤 전송 중...';
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: formData });
+      const json = await res.json();
+      if (!json.success) throw new Error(json.message || 'Web3Forms submit failed');
+      document.getElementById('submit-msg').classList.add('show');
+    } catch (err) {
+      console.error('Web3Forms submit failed:', err);
+      document.getElementById('submit-error-msg').classList.add('show');
+      sendViaMailtoFallback(d);
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalLabel;
+    }
   });
 
   const kakaoBtn = document.getElementById('kakao-share-btn');
