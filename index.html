@@ -869,9 +869,11 @@
     document.getElementById('kakao-msg').classList.remove('show');
 
     const formData = new FormData();
+    // access_key가 taesanrec333@naver.com(대표자 등록 이메일)에 귀속되어 있어, 받는 사람은 항상 그 주소로 고정됩니다.
     formData.append('access_key', WEB3FORMS_ACCESS_KEY);
     formData.append('subject', `[접착제 추천 요청] ${d.company} - ${d.materialText}`);
     formData.append('from_name', d.company || '태산솔루션 웹사이트 문의');
+    if (d.email) formData.append('email', d.email); // Web3Forms가 이 필드를 고객 이메일로 인식해 회신(Reply-To) 주소로 설정합니다.
     formData.append('고객사', d.company);
     formData.append('담당자', d.manager);
     formData.append('연락처', d.phone);
