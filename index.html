@@ -682,7 +682,7 @@
           <div class="lineup-desc">${top.desc}</div>
           <div class="lineup-link-row">
             <a class="lineup-link" href="${top.url}" target="_blank" rel="noopener noreferrer">헨켈 공식 사이트에서 실물 사진·상세정보 보기 ↗</a>
-            <a class="lineup-link lineup-link-naver" href="${naverLowestPriceUrl(top.name)}" target="_blank" rel="noopener noreferrer">🛒 네이버 최저가 5개 보기 ↗</a>
+            ${naverPriceLinkHtml(top.name)}
           </div>
         </div>`;
       }).join('');
@@ -725,6 +725,21 @@
     return `https://search.shopping.naver.com/search/all?query=${encodeURIComponent(productName)}&sort=price_asc`;
   }
 
+  // GitHub Actions가 하루 1회 네이버 검색(쇼핑) API로 갱신하는 실제 최저가 데이터.
+  // 정적 사이트라 브라우저에서 API를 직접 호출할 수 없어(CORS/키 노출 문제),
+  // 미리 생성된 prices.json을 읽어오는 방식을 씁니다. 아직 없거나 로드 전이면
+  // 검색 링크로 자연스럽게 대체됩니다.
+  let NAVER_PRICES = {};
+  fetch('./prices.json').then(r => r.ok ? r.json() : {}).then(data => { NAVER_PRICES = data; }).catch(() => {});
+
+  function naverPriceLinkHtml(productName) {
+    const info = NAVER_PRICES[productName];
+    if (info && info.price) {
+      return `<a class="lineup-link lineup-link-naver" href="${info.link}" target="_blank" rel="noopener noreferrer">🛒 네이버 최저가 ${Number(info.price).toLocaleString('ko-KR')}원 (${info.mallName}) ↗</a>`;
+    }
+    return `<a class="lineup-link lineup-link-naver" href="${naverLowestPriceUrl(productName)}" target="_blank" rel="noopener noreferrer">🛒 네이버 최저가 5개 보기 ↗</a>`;
+  }
+
   // 피착재 기준 기본 순위에, 선택하신 작업 환경(고온/화학물질/진동/절연 등)에 맞는 제품을 위로 재정렬합니다.
   function getRankedLineup(lineup, selectedEnvs) {
     const withScore = lineup.map((p, i) => ({
@@ -750,7 +765,7 @@
       <div class="lineup-reason">💡 ${rank}순위인 이유: ${boosted ? '선택하신 작업 환경 조건에 맞아 우선순위가 조정되었습니다. ' : ''}${p.reason}</div>
       <div class="lineup-link-row">
         <a class="lineup-link" href="${p.url}" target="_blank" rel="noopener noreferrer">헨켈 공식 사이트에서 실물 사진·상세정보 보기 ↗</a>
-        <a class="lineup-link lineup-link-naver" href="${naverLowestPriceUrl(p.name)}" target="_blank" rel="noopener noreferrer">🛒 네이버 최저가 5개 보기 ↗</a>
+        ${naverPriceLinkHtml(p.name)}
       </div>
     </div>`;
   }
