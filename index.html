@@ -310,6 +310,22 @@
         <div class="reco-note">※ 브랜드명·용도 키워드를 기반으로 한 1차 유사 제품군 매칭입니다. 정확한 1:1 대체 여부는 태산솔루션 담당자가 헨켈 기술팀과 함께 최종 확인해 드립니다.</div>
       </div>
     </div>
+
+    <div class="reco-divider"><span>또는</span></div>
+
+    <div class="field">
+      <label>피착제 조합으로 실제 적용 사례 검색</label>
+      <div class="competitor-search-row">
+        <input type="text" id="case-search-input" placeholder="예) PVC PC, AL Steel, Glass PC, EPDM TPV 등" />
+        <button type="button" class="btn btn-primary" id="case-search-btn">검색</button>
+      </div>
+      <p class="form-note">실제 헨켈 기술팀이 검토했던 사례에서 피착제(접착 대상 재질) 키워드로 검색합니다. 재질명을 띄어쓰기로 구분해 입력하세요.</p>
+    </div>
+    <div class="field" id="case-search-box" style="display:none; margin-top:16px;">
+      <div class="reco-label">📚 실제 적용 사례 검색 결과</div>
+      <div id="case-search-list"></div>
+      <div class="reco-note">※ 개인정보 보호를 위해 고객사명은 비공개 처리했습니다. 실제 사례를 기반으로 한 참고용 정보이며, 정확한 제품 선정은 태산솔루션 담당자가 헨켈 기술팀과 함께 확인해 드립니다.</div>
+    </div>
   </div>
 </section>
 
@@ -708,6 +724,74 @@
     if (e.key === 'Enter') {
       e.preventDefault();
       renderCompetitorResult(document.getElementById('competitor-input').value);
+    }
+  });
+
+  // 실제 헨켈 기술팀 검토 사례(익명화) 기반 피착제 조합 검색.
+  // 정적 사이트라 case_studies.json을 미리 생성해두고 fetch로 불러옵니다(prices.json과 동일한 패턴).
+  let CASE_STUDIES = [];
+  fetch('./case_studies.json').then(r => r.ok ? r.json() : { cases: [] }).then(data => { CASE_STUDIES = data.cases || []; }).catch(() => {});
+
+  function searchCaseStudies(query) {
+    const tokens = query.trim().toLowerCase().split(/[\s,+\/]+/).filter(Boolean);
+    if (!tokens.length) return [];
+    return CASE_STUDIES
+      .map(c => {
+        const haystack = [c.application, ...(c.substrates || []), ...(c.requirements || []), ...(c.recommended || [])]
+          .join(' ').toLowerCase();
+        const score = tokens.filter(t => haystack.includes(t)).length;
+        return { c, score };
+      })
+      .filter(x => x.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .map(x => x.c);
+  }
+
+  function renderCaseComparisonTable(table) {
+    if (!table) return '';
+    const cols = Object.keys(table).filter(k => k !== 'attributes');
+    const rows = table.attributes.map((attr, i) =>
+      `<tr><td style="font-weight:700; white-space:nowrap;">${attr}</td>${cols.map(c => `<td>${table[c][i]}</td>`).join('')}</tr>`
+    ).join('');
+    return `<div style="overflow-x:auto; margin-top:8px;">
+      <table style="width:100%; border-collapse:collapse; font-size:12px;">
+        <thead><tr><td></td>${cols.map(c => `<td style="font-weight:800; color:var(--red);">${c.replace(/_/g, ' ')}</td>`).join('')}</tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+  }
+
+  function renderCaseItem(c) {
+    return `<div class="lineup-item">
+      <div class="lineup-category">적용부위</div>
+      <div class="lineup-name">${c.application}</div>
+      <div class="lineup-capacity">🔧 피착제: ${(c.substrates || []).join(' + ')}</div>
+      ${(c.requirements || []).length ? `<div class="lineup-desc">요구사항: ${c.requirements.join(', ')}</div>` : ''}
+      <div class="lineup-reason">💡 추천 제품: <b>${(c.recommended || []).join(', ')}</b> — ${c.reason || ''}</div>
+      ${c.alternatives && c.alternatives.length ? `<div class="lineup-desc">대안: ${c.alternatives.join(' / ')}</div>` : ''}
+      ${renderCaseComparisonTable(c.comparison_table)}
+    </div>`;
+  }
+
+  function renderCaseSearchResult(query) {
+    const box = document.getElementById('case-search-box');
+    const list = document.getElementById('case-search-list');
+    const results = searchCaseStudies(query);
+    if (!results.length) {
+      list.innerHTML = `<div class="lineup-item"><div class="lineup-desc">일치하는 사례를 찾지 못했습니다. 재질명을 다르게 입력하시거나(예: PVC, AL, Glass, EPDM), 담당자에게 직접 문의해 주세요.</div></div>`;
+    } else {
+      list.innerHTML = results.map(renderCaseItem).join('');
+    }
+    box.style.display = 'block';
+  }
+
+  document.getElementById('case-search-btn').addEventListener('click', () => {
+    renderCaseSearchResult(document.getElementById('case-search-input').value);
+  });
+  document.getElementById('case-search-input').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      renderCaseSearchResult(document.getElementById('case-search-input').value);
     }
   });
 

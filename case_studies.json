@@ -1,0 +1,315 @@
+{
+  "_updatedAt": "2026-08-05T00:00:00.000Z",
+  "cases": [
+    {
+      "id": "arumdentistry-2023",
+      "application": "덴탈 가공기 - 직사각형 테두리 Bonding 및 Sealing",
+      "substrates": [
+        "Silicone",
+        "Painted steel"
+      ],
+      "requirements": [
+        "재조립(탈부착) 가능해야 함",
+        "Leak 방지(Sealing)"
+      ],
+      "recommended": [
+        "PSA Hotmelt"
+      ],
+      "reason": "점착력과 방수력을 동시에 보유해 Gasketing 용도로 사용 가능하며, AS로 떼어냈다가 재조립해도 점착력이 유지됨. 단 먼지/유분 오염 시 점착력 저하 가능."
+    },
+    {
+      "id": "incell-2025",
+      "application": "ESS(Energy Storage System) - 태양광/풍력/변전소",
+      "substrates": [
+        "AL"
+      ],
+      "requirements": [
+        "-20~100도 내온성",
+        "색상/점도 무관",
+        "Gasketing(혐기성)용 1종 + 구조용 1종 필요"
+      ],
+      "recommended": [
+        "LOCTITE EA E-60HP (구조용)",
+        "HIC 518/515/574 (Gasketing 후보, 테스트 진행중)"
+      ],
+      "reason": "구조용은 E-60HP로 확정 진행. Gasketing용은 후보 3종을 냉매 장기신뢰성 Test 진행 중이었음(결과 미확인).",
+      "status": "일부 진행중"
+    },
+    {
+      "id": "hwaseung-tnc-2025",
+      "application": "자동차 웨더스트립 사출접착",
+      "substrates": [
+        "EPDM",
+        "TPV"
+      ],
+      "requirements": [],
+      "recommended": [
+        "LOCTITE LIOFOL LA 4501 25KG"
+      ],
+      "reason": "용제형 폴리우레탄 base 접착제. 도포 후 용제 기화, 이후 사출 시 열/압으로 경화. 아이폰 케이스, 산업용 Wire saw, 자동차 전장 Hotmelt 접착보조제 등에 적용 사례 있음."
+    },
+    {
+      "id": "ilshimtech-2025",
+      "application": "화장품 Case 접착",
+      "substrates": [
+        "PVA",
+        "Nylon"
+      ],
+      "requirements": [
+        "BPA Free",
+        "저점도(10,000 CP)",
+        "Clear color"
+      ],
+      "recommended": [
+        "Loctite E-30CL"
+      ],
+      "reason": "요구 스펙(BPA Free/저점도/투명)에 부합. 경화제에 비스페놀 극미량(1kg당 1g 미만) 포함되어 있으나 실사용상 문제없는 수준으로 확인."
+    },
+    {
+      "id": "rainbow-robotics-2025",
+      "application": "Housing(AL) + Motor(Steel) 체결",
+      "substrates": [
+        "AL",
+        "Steel"
+      ],
+      "requirements": [
+        "접착력 우수",
+        "경화시간 빠름"
+      ],
+      "recommended": [
+        "Loctite 384 + 7387(Activator) - 2Step 방식",
+        "Loctite E-60HP - 2액형"
+      ],
+      "reason": "2가지 방식(2Step 활성제 방식 / 2액형 에폭시) 옵션 제공."
+    },
+    {
+      "id": "ybrique-2025",
+      "application": "Glass block 접착 (건축 - 벽천 블럭)",
+      "substrates": [
+        "Glass",
+        "Glass"
+      ],
+      "requirements": [
+        "표면 정도/접착 두께에 따라 점도 선정 필요"
+      ],
+      "recommended": [
+        "LOCTITE SI 5055 1LML (저점도/고접착력, 300,000원/L)",
+        "LOCTITE SI 5056 1LEN (949,000원/L)"
+      ],
+      "reason": "둘 다 1액형 UV경화형 Silicone. 5055가 상대적으로 저점도+Glass 접착력 우수. UV경화(수초~수분)로 일반 Silicone(완전경화 7일 이상) 대비 시공성 우수. 내열 200도 이상, 내후성/내충격성/내수성 모두 우수."
+    },
+    {
+      "id": "edaechang-2025",
+      "application": "자동차 쿼터 글라스 접착",
+      "substrates": [
+        "Painted glass (Black 코팅)",
+        "PVC (사출물, 원소재 POM)"
+      ],
+      "requirements": [
+        "이탈력 X-Y축 15Kg 수준",
+        "AS 해체는 불필요"
+      ],
+      "recommended": [
+        "Loctite PUR 4663 (최종 채택)"
+      ],
+      "alternatives": [
+        "UV접착제 Loctite 5055/5056 - 단 피착제 한쪽면이 투명해야 함 (본 건은 Black 코팅으로 UV 불가하여 배제)",
+        "2액형 실리콘 Loctite 5600/5615 - 경화 5~10분"
+      ],
+      "reason": "PUR Hotmelt는 초기경화 30초~5분, 습기경화로 24시간 내 완전경화. Glass 접착 경험 많은 구조용 제품. 참고: 상대재질을 POM에서 PP+GF30%로 변경 시 접착력 저하 우려(PP/PE/테프론 계열은 접착제 전반에 취약, Glass fiber 함유도 접착력에 불리) - 재질 변경 검토 시 반드시 사전 확인 필요."
+    },
+    {
+      "id": "angel-robotics-2025",
+      "application": "규소강판 코어 적층(슬롯 단면 간 접착) - 원형 스테이터용",
+      "substrates": [
+        "규소강판(Silicon steel)",
+        "규소강판(Silicon steel)"
+      ],
+      "requirements": [
+        "에폭시 수준의 강한 접착"
+      ],
+      "recommended": [
+        "Loctite E-30CL"
+      ],
+      "reason": "저점도로 적층(Laminating) 작업에 용이. 기존 넓은 면 접착(강판 본딩)에는 Loctite E-60HP를 사용 중이었으며, 동일 Gun/Nozzle 규격 호환.",
+      "note": "동일 고객사, 동일 재질이라도 '넓은 면 접착' vs '적층 단면 접착'처럼 적용 방식이 다르면 추천 제품이 달라짐(E-60HP → E-30CL)."
+    },
+    {
+      "id": "rinnai-2025",
+      "application": "업소용 기계 조작부 - 엔코더 Shaft + Knob",
+      "substrates": [
+        "미상(협력사 확인중, 4가지 케이스 가정)"
+      ],
+      "requirements": [
+        "내열 -10~60도",
+        "내화학 불필요",
+        "초기경화 1분/완전경화 24시간 이내",
+        "AS시 해체 가능해야 함"
+      ],
+      "recommended": [
+        "Loctite 480 (Black, ABS/PC 접착 우수, 100CPS, 초기경화 1분 이내)",
+        "Loctite 435 (투명, ABS/PC 접착 우수, 200CPS, 초기경화 30초 이내)"
+      ],
+      "reason": "둘 다 Rubber filler 함유 1액형 순간접착제로 내충격성 보강. 색상(불투명/투명)으로 구분 제공."
+    },
+    {
+      "id": "woorhimecha-2025",
+      "application": "리니어 모터 체결부",
+      "substrates": [
+        "POM",
+        "SUS"
+      ],
+      "requirements": [
+        "접착력 우수",
+        "모터 진동 대응",
+        "접착제 도포 육안 확인 가능(유색)"
+      ],
+      "recommended": [
+        "Loctite 480"
+      ],
+      "reason": "검정색 순간접착제로 도포 육안검사 가능. Rubber filler로 충격/진동에 강함(적용사례: 청소기 모터 마그넷 접착). 저점도로 미세 나사산/좁은 접착면에 적합.",
+      "related_followup": "이후 별도 건으로 비파괴 X-Ray 검사 시 비중 차이로 식별 가능한 유색 Loctite 425 구매 문의가 있었으나 결론 미확인(진행중)."
+    },
+    {
+      "id": "remotesolution-2026",
+      "application": "리모컨 투명 버튼 본딩(외관부)",
+      "substrates": [
+        "PC",
+        "Polyester-based TPU"
+      ],
+      "requirements": [
+        "외관용 - 백화현상 최소화",
+        "핸들링(조립 후 지속 취급)에 견뎌야 함"
+      ],
+      "recommended": [
+        "Loctite E-30CL"
+      ],
+      "reason": "순간접착제는 경화 중 백화현상 및 주변 재질 영향 가능성이 있어 외관부에는 부적합 → 2액형 투명 에폭시로 대체 추천. 초기경화 3시간/완전경화 24시간. 전용 Gun+Mix nozzle 필요."
+    },
+    {
+      "id": "smc-gongap-2026",
+      "application": "전동 Actuator",
+      "substrates": [
+        "AL",
+        "Magnet"
+      ],
+      "requirements": [
+        "내진동성",
+        "점도가 있어 흘러내리지 않아야 함",
+        "기존 Threebond 순간접착제 대체(수급문제)"
+      ],
+      "recommended": [
+        "Loctite 411"
+      ],
+      "reason": "점도 4,000~8,000CPS로 순간접착제 중 비교적 고점도. Rubber filler 함유로 내진동성 우수."
+    },
+    {
+      "id": "hanseong-chemical-2026",
+      "application": "차량 인테리어 Sheet",
+      "substrates": [
+        "가죽",
+        "실리콘"
+      ],
+      "requirements": [
+        "실리콘은 접착력이 좋지 않은 재질이라 특히 고려 필요"
+      ],
+      "recommended": [
+        "PUR Hotmelt (Technomelt PUR4663)",
+        "PSA Hotmelt"
+      ],
+      "reason": "PUR Hotmelt: 초기경화 30초~5분, 습기경화로 24시간 내 완전경화, 자동차/가전 구조용으로 널리 사용. PSA Hotmelt: 접착이 어려운 재질(PP/PE/Nylon)에도 우수, 큰 면적에 경제적."
+    },
+    {
+      "id": "l-light-2026",
+      "application": "머신비전 조명제어기 SMPS 1차측 Capacitor + 바이메탈 스위치",
+      "substrates": [
+        "PE",
+        "PC"
+      ],
+      "requirements": [
+        "내열 125도 이상",
+        "UL/난연 특별요건 없음(단순 부착 유지)",
+        "수작업 생산",
+        "요청 경화 10초(너무 빨라 조정 필요)"
+      ],
+      "recommended": [
+        "Loctite E-60HP"
+      ],
+      "reason": "10초 경화는 순간접착제/UV급이라 이 적용부에는 부적합 판단, 2액형 에폭시(초기경화 3시간)로 대체 추천."
+    },
+    {
+      "id": "clerobotics-2026",
+      "application": "3D 비전센서 Lens Bonding",
+      "substrates": [
+        "Glass",
+        "PC"
+      ],
+      "requirements": [
+        "Clear color 필수",
+        "Glass-PC 공차 1mm 이내"
+      ],
+      "recommended": [
+        "Loctite AA 3311",
+        "Loctite AA 3321"
+      ],
+      "reason": "UV 365nm 경화형, Lens bonding 전용 제품. UV 조사 설비 필요(경화제만으로는 Sample 작업 불가)."
+    },
+    {
+      "id": "osteonic-2026",
+      "application": "관절경 수술용 튜빙세트 고정용 (멸균세척액 공급용 1회용 튜빙)",
+      "substrates": [
+        "PVC+PC",
+        "PVC+ABS"
+      ],
+      "requirements": [
+        "Medical grade (ISO 10993)"
+      ],
+      "requested_by_customer": [
+        "Loctite 4014 (국내 간헐 유통, 재고 없어 수입 필요)",
+        "Loctite 4902 (국내 입고 이력 없음, 화평법 절차로 약 2개월 소요)"
+      ],
+      "recommended": [
+        "Loctite 402"
+      ],
+      "reason": "ISO 10993 Medical grade. 국내 치석제거기/무릎관절 수술로봇 키트 나사고정용 Test 진행 중인 실사용 제품. 요청 제품 대비 PVC/ABS 접착력, 내열성이 동등 이상이며 국내 조달 가능(수입 불필요)이 핵심 강점.",
+      "comparison_table": {
+        "attributes": [
+          "제품 용도",
+          "화학계열",
+          "점도(25도)",
+          "색상",
+          "Medical 인증",
+          "PVC-PVC 접착력",
+          "ABS-ABS 접착력",
+          "초기경화(Fixture Time)",
+          "내열성",
+          "주요특징"
+        ],
+        "LOCTITE_402": [
+          "범용 고성능 Instant Adhesive(Medical 사용 가능)",
+          "Ethyl/Allyl Cyanoacrylate",
+          "110 cP",
+          "투명~담황색",
+          "ISO 10993(Disposable Medical Device 적용가능)",
+          ">6 MPa",
+          "8 MPa",
+          "Steel기준 약 5~45초(재질별 상이)",
+          "우수(약135도 수준)",
+          "빠른경화, 높은내열성, 높은습도저항성"
+        ],
+        "LOCTITE_4014": [
+          "Medical Grade Instant Adhesive",
+          "Ethyl Cyanoacrylate",
+          "1~4 cP",
+          "Ultra Clear",
+          "ISO 10993(Medical Device Grade)",
+          ">7.5 MPa",
+          ">4 MPa",
+          "일반적으로 10~30초",
+          "우수(Medical용)",
+          "초저점도, 의료기기전용, 멸균공정적합"
+        ]
+      }
+    }
+  ]
+}
