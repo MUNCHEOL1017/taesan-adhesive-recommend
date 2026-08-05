@@ -1,5 +1,5 @@
 {
-  "_updatedAt": "2026-08-05T00:00:00.000Z",
+  "_updatedAt": "2026-08-05T01:00:00.000Z",
   "cases": [
     {
       "id": "arumdentistry-2023",
@@ -310,6 +310,40 @@
           "초저점도, 의료기기전용, 멸균공정적합"
         ]
       }
+    },
+    {
+      "id": "angel-robotics-thermal-2026",
+      "application": "구동모듈 스테이터 코어 슬롯 - 온도센서 고정 및 방열(쿨링플레이트로 열 전달)",
+      "substrates": [
+        "규소강판(Silicon steel) 코어",
+        "온도센서"
+      ],
+      "requirements": [
+        "기존에는 써멀그리스+내열테이프+에폭시 도포로 공정이 복잡했음 - 공정 단순화 필요"
+      ],
+      "recommended": [
+        "LOCTITE TFX 3010 (Thermal Gap Filler)"
+      ],
+      "reason": "SMP 재질의 열전도성 갭필러로 배터리모듈 바닥에 부착되어 쿨링플레이트로 열을 전달. 열전도율 3.0 W/m·K. 전용 2액형 건으로 도포해 기존 다단계 공정(그리스+테이프+에폭시)을 하나로 단순화 가능."
+    },
+    {
+      "id": "amtec-2026",
+      "application": "ESS(Energy Storage System) Battery 단열판 Lamination",
+      "substrates": [
+        "PET+PE",
+        "PU+PE",
+        "PET+PET",
+        "PET+PU"
+      ],
+      "requirements": [
+        "4가지 재질 조합 각각 Test 진행",
+        "Size 566mm x 123.85mm"
+      ],
+      "recommended": [
+        "Technomelt PS 1563 (테스트 진행중, 최종 확정 아님)"
+      ],
+      "reason": "설비사(Nordson)와 협업하여 4가지 피착제 조합에 대해 Hotmelt 라미네이션 적용성 Test 진행. Application temp 160~180도.",
+      "status": "테스트 진행중 - 최종 결과 미확인"
     }
   ]
 }
