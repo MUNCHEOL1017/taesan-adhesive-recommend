@@ -610,14 +610,29 @@
     return [...document.querySelectorAll('.env-input:checked')].map(el => el.value);
   }
 
-  // 검증된 실제 크로스 레퍼런스(헨켈/Permatex 공식 자료 기준). 정확히 일치하는 경쟁사 제품/코드를 우선 매칭합니다.
+  // 검증된 실제 크로스 레퍼런스(각 브랜드 공식 TDS 기준 화학조성·경화방식·사용온도 등 물성 비교). 정확히 일치하는 경쟁사 제품/코드를 우선 매칭합니다.
   const COMPETITOR_EXACT = [
-    { keys: ['24027', '퍼마텍스 24027', 'permatex 24027', 'surface insensitive threadlocker blue'], category: 'threadlocker', note: 'Permatex 24027(Surface Insensitive Threadlocker Blue)의 공식 대응 제품은 LOCTITE 243입니다.' },
-    { keys: ['24200', 'permatex 24200', 'medium strength threadlocker blue'], category: 'threadlocker', note: 'Permatex 24200(Medium Strength Threadlocker Blue)과 같은 중강도 등급인 LOCTITE 243/242 계열이 대응됩니다.' },
-    { keys: ['27100', 'permatex 27100', 'high strength threadlocker red'], category: 'threadlocker', note: 'Permatex 27100(High Strength Threadlocker Red)과 같은 고강도 등급인 LOCTITE 270이 대응됩니다.' },
+    { keys: ['24027', '퍼마텍스 24027', 'permatex 24027', 'surface insensitive threadlocker blue'], category: 'threadlocker', matchProduct: 'LOCTITE 243', note: 'Permatex 24027(Surface Insensitive Threadlocker Blue)의 공식 대응 제품은 LOCTITE 243입니다.' },
+    { keys: ['24200', 'permatex 24200', 'medium strength threadlocker blue'], category: 'threadlocker', matchProduct: 'LOCTITE 243', note: 'Permatex 24200(Medium Strength Threadlocker Blue)과 같은 중강도 등급인 LOCTITE 243/242 계열이 대응됩니다.' },
+    { keys: ['27100', 'permatex 27100', 'high strength threadlocker red'], category: 'threadlocker', matchProduct: 'LOCTITE 270', note: 'Permatex 27100(High Strength Threadlocker Red)과 같은 고강도 등급인 LOCTITE 270이 대응됩니다.' },
     { keys: ['29000', 'permatex 29000', 'penetrating grade threadlocker'], category: 'threadlocker', note: 'Permatex 29000(침투형 그린 나사고정제)과 유사한 혐기성 나사고정제 라인입니다.' },
     { keys: ['51813', 'permatex 51813', 'anaerobic gasket maker'], category: 'sealant', note: 'Permatex 51813(Anaerobic Gasket Maker)과 같은 혐기성 액상 개스킷 계열입니다.' },
-    { keys: ['54540', 'permatex 54540', 'hydraulic pneumatic sealant'], category: 'sealant', note: 'Permatex 54540(유압/공압 실런트)과 같은 실링 계열입니다.' }
+    { keys: ['54540', 'permatex 54540', 'hydraulic pneumatic sealant'], category: 'sealant', note: 'Permatex 54540(유압/공압 실런트)과 같은 실링 계열입니다.' },
+    { keys: ['ultra black', '얼트라 블랙', '울트라 블랙', '82180', '85080'], category: 'sealant', matchProduct: 'LOCTITE SI 5920', note: 'Permatex Ultra Black(-54°C~260°C, 내오일성 RTV 실리콘 개스킷메이커)과 물성이 가장 가까운 제품은 동일하게 내오일성·고온에 강한 LOCTITE SI 5920입니다.' },
+    { keys: ['dp100', '3m dp100', 'scotch-weld dp100', '스카치웰드 dp100'], category: 'structural', matchProduct: 'LOCTITE EA 3430', note: '3M Scotch-Weld DP100(투명 2액형 에폭시, 1:1 배합)과 화학조성·투명 마감 특성이 가장 유사한 제품은 LOCTITE EA 3430(투명 2액형 에폭시)입니다.' },
+    { keys: ['1211', '쓰리본드 1211', 'threebond 1211', 'three bond 1211'], category: 'sealant', matchProduct: 'LOCTITE SI 5145', note: 'ThreeBond 1211(1액형 RTV 실리콘, 범용 실링)과 같은 손작업용 범용 RTV 실리콘인 LOCTITE SI 5145가 대응됩니다.' },
+    { keys: ['1401', '쓰리본드 1401', 'threebond 1401', 'three bond 1401'], category: 'threadlocker', matchProduct: 'LOCTITE 243', note: 'ThreeBond 1401(혐기성 나사고정제)과 같은 범용 중강도 등급인 LOCTITE 243이 대응됩니다.' },
+    { keys: ['2 ton epoxy', '투톤 에폭시', 'devcon 2 ton'], category: 'structural', matchProduct: 'LOCTITE EA 9394 AERO', note: 'Devcon 2 Ton Epoxy(상온경화 구조용 에폭시, 금속·세라믹·유리)와 용도가 가장 유사한 범용 구조용 에폭시는 LOCTITE EA 9394 AERO입니다.' },
+    { keys: ['plastic steel', '플라스틱 스틸', 'devcon plastic steel'], category: 'structural', matchProduct: 'LOCTITE EA 9430', note: 'Devcon Plastic Steel(금속충전 에폭시 퍼티, 두꺼운 갭 메움)은 헨켈 목록 중 두꺼운 접합부(최대 5mm)에 대응하는 LOCTITE EA 9430과 가장 유사한 용도입니다. 다만 금속분말 충전형은 헨켈 목록에 없어 참고용 비교입니다.' },
+    { keys: ['sikaflex 291', '시카플렉스 291', 'sika 291'], category: 'sealant', matchProduct: 'LOCTITE SI 598', note: 'Sikaflex-291(1액형 폴리우레탄, -50°C~90°C, 높은 신율)은 화학 조성은 다르지만(PU vs 실리콘) 넓은 사용온도·유연성이 가장 가까운 LOCTITE SI 598과 비교하시면 됩니다.' },
+    { keys: ['gorilla super glue', '고릴라 순간접착제', '고릴라 슈퍼글루'], category: 'instant', matchProduct: 'LOCTITE 401', note: 'Gorilla Super Glue(범용 시아노아크릴레이트)와 같은 범용 순간접착제인 LOCTITE 401이 대응됩니다.' },
+    { keys: ['gorilla epoxy', '고릴라 에폭시'], category: 'structural', matchProduct: 'LOCTITE EA 9394 AERO', note: 'Gorilla Epoxy(5분 경화, 2액형 범용 에폭시)와 같은 범용 구조용 에폭시는 LOCTITE EA 9394 AERO입니다. 다만 고릴라 제품이 경화 속도는 더 빠릅니다.' },
+    { keys: ['dow corning 732', '다우코닝 732', 'dowsil 732'], category: 'sealant', matchProduct: 'LOCTITE SI 598', note: 'Dow Corning(DOWSIL) 732(1액형 RTV, -60°C~205°C 범용 실리콘)와 넓은 사용온도 범위가 가장 유사한 제품은 LOCTITE SI 598(-54°C~260°C)입니다.' },
+    { keys: ['titebond iii', '타이트본드 3', '타이트본드3', '타이트본드 iii'], category: 'instant', matchProduct: 'LOCTITE 454', note: 'Titebond III(내수 목공용 PVA 접착제)는 화학 조성은 다르지만(PVA vs 시아노아크릴레이트), 목재·다공성 소재에 강한 LOCTITE 454(겔타입)가 산업용 대안으로 가장 가깝습니다.' },
+    { keys: ['ke-45', 'ke45', '신에츠 ke-45'], category: 'sealant', matchProduct: 'LOCTITE SI 5145', note: '신에츠 KE-45(탈옥심형 RTV 실리콘, 범용 실링·전기절연)와 같은 범용 RTV 실리콘인 LOCTITE SI 5145가 대응됩니다.' },
+    { keys: ['ke-347', 'ke347', '신에츠 ke-347'], category: 'epoxy', matchProduct: 'LOCTITE ECCOBOND FP4531', note: '신에츠 KE-347(유동성 컨포멀 코팅, 전자부품 보호)과 용도가 가장 유사한 제품은 전자부품 포팅·절연용 LOCTITE ECCOBOND FP4531입니다.' },
+    { keys: ['알테코 ee', 'alteco ee', '알테코 일반용'], category: 'instant', matchProduct: 'LOCTITE 454', note: '알테코 EE(난접착재·다공질 소재에 강한 순간접착제)와 같은 다공성 소재 특화 제품인 LOCTITE 454(겔타입)가 대응됩니다.' },
+    { keys: ['born2bond', 'born 2 bond', '본투본드'], category: 'instant', matchProduct: 'LOCTITE 480', note: 'Bostik Born2Bond Structural(고강도 하이브리드 순간접착제, 갭필 5mm)과 유사한 내충격 구조용 순간접착제는 LOCTITE 480입니다.' }
   ];
 
   // 브랜드명·용도 키워드 기반 카테고리 매칭 (정확한 코드가 없을 때의 보조 판단용).
@@ -651,7 +666,7 @@
     if (!q) return null;
     for (const entry of COMPETITOR_EXACT) {
       if (entry.keys.some(k => q.includes(k))) {
-        return { type: 'exact', category: entry.category, note: entry.note };
+        return { type: 'exact', category: entry.category, note: entry.note, matchProduct: entry.matchProduct };
       }
     }
     for (const entry of COMPETITOR_KEYWORDS) {
@@ -712,7 +727,8 @@
     document.getElementById('competitor-title').textContent = family.label;
     document.getElementById('competitor-desc').textContent = result.note || `입력하신 "${input}"과(와) 용도가 유사한 헨켈 제품군입니다.`;
     document.getElementById('competitor-lineup-wrap').style.display = 'block';
-    document.getElementById('competitor-lineup-list').innerHTML = getRankedLineup(family.lineup, getSelectedEnvs()).map(renderLineupItem).join('');
+    const rankedForCompetitor = prioritizeMatchedProduct(getRankedLineup(family.lineup, getSelectedEnvs()), result.matchProduct);
+    document.getElementById('competitor-lineup-list').innerHTML = rankedForCompetitor.map(renderLineupItem).join('');
     box.style.display = 'block';
     competitorRecoState = { label: family.label, updatedAt: Date.now() };
   }
@@ -840,19 +856,29 @@
     return withScore.map(({ p, score }) => ({ p, boosted: score > 0 }));
   }
 
+  // 타사 제품 물성 매칭 결과에서, 가장 유사한 특정 헨켈 제품을 1순위로 끌어올립니다.
+  function prioritizeMatchedProduct(rankedList, matchProductName) {
+    if (!matchProductName) return rankedList;
+    const idx = rankedList.findIndex(item => item.p.name === matchProductName);
+    if (idx <= 0) return rankedList.map(item => item.p.name === matchProductName ? { ...item, matched: true } : item);
+    const rest = rankedList.filter((_, i) => i !== idx);
+    return [{ ...rankedList[idx], matched: true }, ...rest];
+  }
+
   function renderLineupItem(item, idx) {
     const p = item && item.p ? item.p : item;
     const boosted = !!(item && item.boosted);
+    const matched = !!(item && item.matched);
     const rank = idx + 1;
-    return `<div class="lineup-item${boosted ? ' boosted' : ''}">
+    return `<div class="lineup-item${boosted ? ' boosted' : ''}${matched ? ' boosted' : ''}">
       <div class="lineup-name-row">
         <span class="lineup-rank-badge">${rank}</span>
         <span class="lineup-name">${p.name}</span>
-        ${boosted ? '<span class="lineup-boosted-tag">✅ 선택하신 작업 환경에 적합</span>' : ''}
+        ${matched ? '<span class="lineup-boosted-tag">🎯 물성 기준 최적 매칭 제품</span>' : (boosted ? '<span class="lineup-boosted-tag">✅ 선택하신 작업 환경에 적합</span>' : '')}
       </div>
       <div class="lineup-capacity">📦 용량: ${p.capacity}</div>
       <div class="lineup-desc">${p.desc}</div>
-      <div class="lineup-reason">💡 ${rank}순위인 이유: ${boosted ? '선택하신 작업 환경 조건에 맞아 우선순위가 조정되었습니다. ' : ''}${p.reason}</div>
+      <div class="lineup-reason">💡 ${rank}순위인 이유: ${matched ? '입력하신 타사 제품과 화학 조성·경화 방식·사용 온도범위가 가장 유사해 최우선으로 매칭했습니다. ' : (boosted ? '선택하신 작업 환경 조건에 맞아 우선순위가 조정되었습니다. ' : '')}${p.reason}</div>
       <div class="lineup-link-row">
         <a class="lineup-link" href="${p.url}" target="_blank" rel="noopener noreferrer">헨켈 공식 사이트에서 실물 사진·상세정보 보기 ↗</a>
         ${tdsLinkHtml(p)}
