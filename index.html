@@ -284,6 +284,10 @@
           <ul id="reco-env-list"></ul>
         </div>
         <div class="reco-extra" id="reco-extra" style="display:none;"></div>
+        <div class="reco-extra" id="reco-realcases" style="display:none;">
+          <div class="reco-extra-label">📚 실제로 이 소재 조합에 추천된 사례</div>
+          <div id="reco-realcases-list"></div>
+        </div>
         <div class="reco-note">※ 위 추천은 소재 조합을 기준으로 한 1차 참고용입니다. 실제 사용 환경(온도·하중·경화조건 등)에 따라 태산솔루션 담당자가 헨켈 기술팀과 함께 최종 확인해 드립니다.</div>
       </div>
     </div>
@@ -748,6 +752,32 @@
   let CASE_STUDIES = [];
   fetch('./case_studies.json').then(r => r.ok ? r.json() : { cases: [] }).then(data => { CASE_STUDIES = data.cases || []; }).catch(() => {});
 
+  // "피착재 2가지 선택" 드롭다운의 대분류(금속/플라스틱/유리 등)를, 실제 사례에 적힌
+  // 구체적인 재질명(AL, PVC, EPDM 등)과 연결하기 위한 키워드 매핑.
+  const MATERIAL_KEYWORDS = {
+    metal: ['al', 'steel', 'sus', 'magnet', 'aluminum', '스틸', '강판', '금속', 'cu'],
+    plastic: ['pvc', 'pc', 'abs', 'pva', 'nylon', 'tpu', 'pom', 'pe', 'pet', 'pu', 'pp', 'plastic', '플라스틱'],
+    glass: ['glass', '유리'],
+    rubber: ['silicone', '실리콘', '고무', 'rubber', 'epdm', 'tpv'],
+    ceramic: ['ceramic', '세라믹'],
+    wood: ['wood', '목재'],
+    composite: ['cfrp', 'composite', '복합재']
+  };
+
+  function substrateTokens(c) {
+    return (c.substrates || []).join(' ').toLowerCase().split(/[^a-z0-9가-힣]+/).filter(Boolean);
+  }
+
+  function getMatchingCasesForMaterials(m1, m2) {
+    if (!m1 || !m2) return [];
+    const kw1 = MATERIAL_KEYWORDS[m1] || [];
+    const kw2 = MATERIAL_KEYWORDS[m2] || [];
+    return CASE_STUDIES.filter(c => {
+      const tokens = substrateTokens(c);
+      return kw1.some(k => tokens.includes(k)) && kw2.some(k => tokens.includes(k));
+    });
+  }
+
   function searchCaseStudies(query) {
     const tokens = query.trim().toLowerCase().split(/[\s,+\/]+/).filter(Boolean);
     if (!tokens.length) return [];
@@ -927,6 +957,15 @@
       extraBox.style.display = 'block';
     } else {
       extraBox.style.display = 'none';
+    }
+
+    const realCasesBox = document.getElementById('reco-realcases');
+    const matchedCases = getMatchingCasesForMaterials(m1, m2);
+    if (matchedCases.length) {
+      document.getElementById('reco-realcases-list').innerHTML = matchedCases.map(renderCaseItem).join('');
+      realCasesBox.style.display = 'block';
+    } else {
+      realCasesBox.style.display = 'none';
     }
 
     box.style.display = 'block';
