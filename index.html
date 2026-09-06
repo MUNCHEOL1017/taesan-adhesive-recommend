@@ -697,7 +697,7 @@
     { keys: ['dp100', '3m dp100', 'scotch-weld dp100', '스카치웰드 dp100'], category: 'structural', matchProduct: 'LOCTITE EA 3430', note: '3M Scotch-Weld DP100(투명 2액형 에폭시, 1:1 배합)과 화학조성·투명 마감 특성이 가장 유사한 제품은 LOCTITE EA 3430(투명 2액형 에폭시)입니다.' },
     { keys: ['1211', '쓰리본드 1211', 'threebond 1211', 'three bond 1211'], category: 'sealant', matchProduct: 'LOCTITE SI 5145', note: 'ThreeBond 1211(1액형 RTV 실리콘, 범용 실링)과 같은 손작업용 범용 RTV 실리콘인 LOCTITE SI 5145가 대응됩니다.' },
     { keys: ['1401', '쓰리본드 1401', 'threebond 1401', 'three bond 1401'], category: 'threadlocker', matchProduct: 'LOCTITE 243', note: 'ThreeBond 1401(혐기성 나사고정제)과 같은 범용 중강도 등급인 LOCTITE 243이 대응됩니다.' },
-    { keys: ['2 ton epoxy', '투톤 에폭시', 'devcon 2 ton'], category: 'structural', matchProduct: 'LOCTITE EA 9394 AERO', note: 'Devcon 2 Ton Epoxy(상온경화 구조용 에폭시, 금속·세라믹·유리)와 용도가 가장 유사한 범용 구조용 에폭시는 LOCTITE EA 9394 AERO입니다.' },
+    { keys: ['2 ton epoxy', '투톤 에폭시', '2톤 에폭시', '데브콘 2톤', 'devcon 2 ton'], category: 'structural', matchProduct: 'LOCTITE EA 9394 AERO', note: 'Devcon 2 Ton Epoxy(상온경화 구조용 에폭시, 금속·세라믹·유리)와 용도가 가장 유사한 범용 구조용 에폭시는 LOCTITE EA 9394 AERO입니다.' },
     { keys: ['plastic steel', '플라스틱 스틸', 'devcon plastic steel'], category: 'structural', matchProduct: 'LOCTITE EA 9430', note: 'Devcon Plastic Steel(금속충전 에폭시 퍼티, 두꺼운 갭 메움)은 헨켈 목록 중 두꺼운 접합부(최대 5mm)에 대응하는 LOCTITE EA 9430과 가장 유사한 용도입니다. 다만 금속분말 충전형은 헨켈 목록에 없어 참고용 비교입니다.' },
     { keys: ['sikaflex 291', '시카플렉스 291', 'sika 291'], category: 'sealant', matchProduct: 'LOCTITE SI 598', note: 'Sikaflex-291(1액형 폴리우레탄, -50°C~90°C, 높은 신율)은 화학 조성은 다르지만(PU vs 실리콘) 넓은 사용온도·유연성이 가장 가까운 LOCTITE SI 598과 비교하시면 됩니다.' },
     { keys: ['gorilla super glue', '고릴라 순간접착제', '고릴라 슈퍼글루'], category: 'instant', matchProduct: 'LOCTITE 401', note: 'Gorilla Super Glue(범용 시아노아크릴레이트)와 같은 범용 순간접착제인 LOCTITE 401이 대응됩니다.' },
@@ -736,21 +736,26 @@
     { keys: ['보스틱', 'bostik'], label: '보스틱(Bostik)' }
   ];
 
+  // 공백 유무 차이로 매칭이 실패하지 않도록("울트라블랙" vs "울트라 블랙") 비교 전 공백을 제거합니다.
+  function normalizeForMatch(s) {
+    return s.toLowerCase().replace(/\s+/g, '');
+  }
+
   function searchCompetitorMatch(raw) {
-    const q = raw.trim().toLowerCase();
+    const q = normalizeForMatch(raw.trim());
     if (!q) return null;
     for (const entry of COMPETITOR_EXACT) {
-      if (entry.keys.some(k => q.includes(k))) {
+      if (entry.keys.some(k => q.includes(normalizeForMatch(k)))) {
         return { type: 'exact', category: entry.category, note: entry.note, matchProduct: entry.matchProduct };
       }
     }
     for (const entry of COMPETITOR_KEYWORDS) {
-      if (entry.category && entry.words.some(w => q.includes(w))) {
+      if (entry.category && entry.words.some(w => q.includes(normalizeForMatch(w)))) {
         return { type: 'keyword', category: entry.category };
       }
     }
     for (const entry of COMPETITOR_BRANDS) {
-      if (entry.keys.some(k => q.includes(k))) {
+      if (entry.keys.some(k => q.includes(normalizeForMatch(k)))) {
         return { type: 'brand', brand: entry.label };
       }
     }
