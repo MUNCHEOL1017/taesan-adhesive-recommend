@@ -127,6 +127,25 @@
   .env-chip input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: -1px; }
   .env-chip span { display: inline-block; padding: 8px 14px; border-radius: 999px; border: 1.5px solid var(--gray-border); font-size: 13px; font-weight: 600; color: var(--gray); transition: all .15s; }
   .env-chip input:checked + span { background: var(--red); border-color: var(--red); color: #fff; }
+
+  /* WIZARD */
+  .wizard { background: var(--gray-light); border: 1.5px solid var(--gray-border); border-radius: var(--radius); padding: 24px 26px; margin-bottom: 18px; }
+  .wizard-progress { display: flex; gap: 10px; margin-bottom: 20px; }
+  .wizard-progress-step { font-size: 12.5px; font-weight: 700; color: var(--gray); padding: 6px 14px; border-radius: 999px; background: #fff; border: 1.5px solid var(--gray-border); }
+  .wizard-progress-step.active { color: #fff; background: var(--red); border-color: var(--red); }
+  .wizard-question { font-size: 17px; font-weight: 800; color: var(--navy); margin-bottom: 16px; }
+  .wizard-picker-row { display: flex; gap: 24px; flex-wrap: wrap; }
+  .wizard-picker-col { flex: 1; min-width: 240px; }
+  .wizard-picker-label { font-size: 12.5px; font-weight: 700; color: var(--gray); margin-bottom: 8px; }
+  .wizard-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px; }
+  .wizard-chip { padding: 14px 8px; border-radius: 10px; border: 1.5px solid var(--gray-border); background: #fff; font-size: 13.5px; font-weight: 700; color: var(--navy); cursor: pointer; transition: all .15s; text-align: center; }
+  .wizard-chip:hover { border-color: var(--red); }
+  .wizard-chip.selected { background: var(--red); border-color: var(--red); color: #fff; }
+  .wizard-nav { display: flex; justify-content: space-between; gap: 10px; margin-top: 20px; }
+  .wizard-restart { margin-top: 16px; }
+  .direct-select-fallback { margin-bottom: 18px; }
+  .direct-select-fallback summary { cursor: pointer; color: var(--gray); font-size: 13px; font-weight: 600; }
+  .direct-select-fallback summary:hover { color: var(--red); }
   .reco-env { margin-bottom: 12px; padding-top: 10px; border-top: 1px dashed #f0b8bf; }
   .reco-env-label { font-size: 12px; font-weight: 700; color: var(--red); margin-bottom: 6px; }
   .reco-env ul { padding-left: 18px; }
@@ -228,48 +247,100 @@
 <section id="recommender">
   <div class="container">
     <div class="eyebrow">● MATERIAL MATCH</div>
-    <h2 class="section-title">피착재 2가지를 선택하면 접착제를 추천해 드립니다</h2>
-    <p class="section-desc">접합하려는 두 소재를 선택하면 조합에 맞는 접착제 종류를 바로 확인할 수 있습니다.</p>
-    <div class="form-2col">
-      <div class="field">
-        <label>피착재 1</label>
-        <select id="material1">
-          <option value="">선택하세요</option>
-          <option value="metal">금속</option>
-          <option value="plastic">플라스틱</option>
-          <option value="glass">유리</option>
-          <option value="rubber">고무</option>
-          <option value="ceramic">세라믹</option>
-          <option value="wood">목재</option>
-          <option value="composite">복합재(CFRP 등)</option>
-        </select>
+    <h2 class="section-title">몇 가지만 알려주시면 접착제를 추천해 드립니다</h2>
+    <p class="section-desc">전문 용어를 몰라도 괜찮습니다. 아래 질문에 답하면 자동으로 딱 맞는 접착제를 찾아드립니다.</p>
+
+    <div class="wizard" id="wizard">
+      <div class="wizard-progress">
+        <span class="wizard-progress-step active" data-step="1">① 소재 선택</span>
+        <span class="wizard-progress-step" data-step="2">② 사용 환경</span>
       </div>
-      <div class="field">
-        <label>피착재 2</label>
-        <select id="material2">
-          <option value="">선택하세요</option>
-          <option value="metal">금속</option>
-          <option value="plastic">플라스틱</option>
-          <option value="glass">유리</option>
-          <option value="rubber">고무</option>
-          <option value="ceramic">세라믹</option>
-          <option value="wood">목재</option>
-          <option value="composite">복합재(CFRP 등)</option>
-        </select>
+
+      <div class="wizard-step" id="wizard-step-1">
+        <div class="wizard-question">🔧 무엇과 무엇을 붙이시나요?</div>
+        <div class="wizard-picker-row">
+          <div class="wizard-picker-col">
+            <div class="wizard-picker-label">소재 1</div>
+            <div class="wizard-grid" data-target="material1">
+              <button type="button" class="wizard-chip" data-value="metal">🔩 금속</button>
+              <button type="button" class="wizard-chip" data-value="plastic">🧊 플라스틱</button>
+              <button type="button" class="wizard-chip" data-value="glass">🥃 유리</button>
+              <button type="button" class="wizard-chip" data-value="rubber">🛞 고무</button>
+              <button type="button" class="wizard-chip" data-value="ceramic">🏺 세라믹</button>
+              <button type="button" class="wizard-chip" data-value="wood">🪵 목재</button>
+              <button type="button" class="wizard-chip" data-value="composite">🧩 복합재</button>
+            </div>
+          </div>
+          <div class="wizard-picker-col">
+            <div class="wizard-picker-label">소재 2</div>
+            <div class="wizard-grid" data-target="material2">
+              <button type="button" class="wizard-chip" data-value="metal">🔩 금속</button>
+              <button type="button" class="wizard-chip" data-value="plastic">🧊 플라스틱</button>
+              <button type="button" class="wizard-chip" data-value="glass">🥃 유리</button>
+              <button type="button" class="wizard-chip" data-value="rubber">🛞 고무</button>
+              <button type="button" class="wizard-chip" data-value="ceramic">🏺 세라믹</button>
+              <button type="button" class="wizard-chip" data-value="wood">🪵 목재</button>
+              <button type="button" class="wizard-chip" data-value="composite">🧩 복합재</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wizard-step" id="wizard-step-2" hidden>
+        <div class="wizard-question">🌡️ 사용 환경이 어떻게 되나요?</div>
+        <p class="form-note" style="margin-bottom:10px;">해당하는 항목을 모두 선택하세요. 없으면 바로 다음으로 넘어가셔도 됩니다.</p>
+        <div class="env-options">
+          <label class="env-chip"><input type="checkbox" class="env-input" value="high_temp" /><span>고온 (50℃ 이상)</span></label>
+          <label class="env-chip"><input type="checkbox" class="env-input" value="low_temp" /><span>저온 (0℃ 이하)</span></label>
+          <label class="env-chip"><input type="checkbox" class="env-input" value="outdoor" /><span>실외 / 자외선 노출</span></label>
+          <label class="env-chip"><input type="checkbox" class="env-input" value="moisture" /><span>다습 / 방수 필요</span></label>
+          <label class="env-chip"><input type="checkbox" class="env-input" value="vibration" /><span>진동 / 충격 있음</span></label>
+          <label class="env-chip"><input type="checkbox" class="env-input" value="chemical" /><span>화학물질 노출</span></label>
+          <label class="env-chip"><input type="checkbox" class="env-input" value="insulation" /><span>전기 절연 필요</span></label>
+        </div>
+        <div class="wizard-nav">
+          <button type="button" class="btn" id="wizard-back-btn">← 이전 단계</button>
+          <button type="button" class="btn btn-primary" id="wizard-finish-btn">✅ 추천 결과 보기</button>
+        </div>
+      </div>
+
+      <div class="wizard-restart" id="wizard-restart-row" hidden>
+        <button type="button" class="btn" id="wizard-restart-btn">🔁 처음부터 다시 진단하기</button>
       </div>
     </div>
-    <div class="field">
-      <label>작업 환경 (복수 선택 가능)</label>
-      <div class="env-options">
-        <label class="env-chip"><input type="checkbox" class="env-input" value="high_temp" /><span>고온 (50℃ 이상)</span></label>
-        <label class="env-chip"><input type="checkbox" class="env-input" value="low_temp" /><span>저온 (0℃ 이하)</span></label>
-        <label class="env-chip"><input type="checkbox" class="env-input" value="outdoor" /><span>실외 / 자외선 노출</span></label>
-        <label class="env-chip"><input type="checkbox" class="env-input" value="moisture" /><span>다습 / 방수 필요</span></label>
-        <label class="env-chip"><input type="checkbox" class="env-input" value="vibration" /><span>진동 / 충격 있음</span></label>
-        <label class="env-chip"><input type="checkbox" class="env-input" value="chemical" /><span>화학물질 노출</span></label>
-        <label class="env-chip"><input type="checkbox" class="env-input" value="insulation" /><span>전기 절연 필요</span></label>
+
+    <details class="direct-select-fallback">
+      <summary>피착재를 이미 알고 계신가요? 드롭다운으로 직접 선택하기</summary>
+      <div class="form-2col" style="margin-top:12px;">
+        <div class="field">
+          <label>피착재 1</label>
+          <select id="material1">
+            <option value="">선택하세요</option>
+            <option value="metal">금속</option>
+            <option value="plastic">플라스틱</option>
+            <option value="glass">유리</option>
+            <option value="rubber">고무</option>
+            <option value="ceramic">세라믹</option>
+            <option value="wood">목재</option>
+            <option value="composite">복합재(CFRP 등)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>피착재 2</label>
+          <select id="material2">
+            <option value="">선택하세요</option>
+            <option value="metal">금속</option>
+            <option value="plastic">플라스틱</option>
+            <option value="glass">유리</option>
+            <option value="rubber">고무</option>
+            <option value="ceramic">세라믹</option>
+            <option value="wood">목재</option>
+            <option value="composite">복합재(CFRP 등)</option>
+          </select>
+        </div>
       </div>
-    </div>
+    </details>
+
     <div class="field" id="reco-box" style="display:none; margin-top:16px;">
       <div class="reco-card">
         <div class="reco-label">🔎 자동 추천 결과</div>
@@ -994,6 +1065,66 @@
       renderCompetitorResult(document.getElementById('competitor-input').value);
     }
   }));
+
+  // 진단 마법사: 소재를 잘 모르는 고객도 쉬운 말로 된 버튼 몇 번 클릭만으로
+  // 기존 material1/material2 select와 env 체크박스를 그대로 채워 동일한 추천 로직을 재사용합니다.
+  (function () {
+    const step1 = document.getElementById('wizard-step-1');
+    const step2 = document.getElementById('wizard-step-2');
+    const restartRow = document.getElementById('wizard-restart-row');
+    const progressSteps = document.querySelectorAll('.wizard-progress-step');
+    const material1El = document.getElementById('material1');
+    const material2El = document.getElementById('material2');
+
+    function setProgress(step) {
+      progressSteps.forEach(el => el.classList.toggle('active', Number(el.dataset.step) <= step));
+    }
+
+    function maybeAdvanceToStep2() {
+      if (material1El.value && material2El.value) {
+        step1.hidden = true;
+        step2.hidden = false;
+        setProgress(2);
+      }
+    }
+
+    document.querySelectorAll('.wizard-chip').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const grid = btn.closest('.wizard-grid');
+        const target = grid.dataset.target;
+        grid.querySelectorAll('.wizard-chip').forEach(b => b.classList.toggle('selected', b === btn));
+        const select = target === 'material1' ? material1El : material2El;
+        select.value = btn.dataset.value;
+        select.dispatchEvent(new Event('change'));
+        maybeAdvanceToStep2();
+      });
+    });
+
+    document.getElementById('wizard-back-btn').addEventListener('click', () => {
+      step2.hidden = true;
+      step1.hidden = false;
+      setProgress(1);
+    });
+
+    document.getElementById('wizard-finish-btn').addEventListener('click', () => {
+      step2.hidden = true;
+      restartRow.hidden = false;
+      document.getElementById('reco-box').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    document.getElementById('wizard-restart-btn').addEventListener('click', () => {
+      material1El.value = '';
+      material2El.value = '';
+      material1El.dispatchEvent(new Event('change'));
+      document.querySelectorAll('.wizard-chip.selected').forEach(b => b.classList.remove('selected'));
+      document.querySelectorAll('#wizard-step-2 .env-input:checked').forEach(cb => { cb.checked = false; cb.dispatchEvent(new Event('change')); });
+      restartRow.hidden = true;
+      step2.hidden = true;
+      step1.hidden = false;
+      setProgress(1);
+      document.getElementById('wizard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  })();
 
   const fileDrop = document.getElementById('file-drop');
   const photoInput = document.getElementById('photo');
