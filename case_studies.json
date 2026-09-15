@@ -1,5 +1,5 @@
 {
-  "_updatedAt": "2026-08-10T00:00:00.000Z",
+  "_updatedAt": "2026-09-15T00:00:00.000Z",
   "cases": [
     {
       "id": "arumdentistry-2023",
@@ -361,6 +361,43 @@
       ],
       "reason": "135도 고온에서도 접착강도 우수(Hot strength 20~25% 잔존 기준 약 140도), 타 medical-grade 후보(Loctite 435, 'M-'시리즈 에폭시/우레탄) 대비 온도범위·인장강도 우수. M-시리즈는 2액형 카트리지 혼합 방식이라 소량 도포 시 손실/혼합불균일 우려로 배제. 극성용매(물) 저항성은 TDS상 'Poor'로 표기되나 장시간(100~1,000시간) 침지 시험 기준으로는 접착력이 현저히 저하되지 않는 것으로 확인됨.",
       "status": "고객사 자체 멸균 수명시험 진행중 - 효소세척 내구성은 추가 확인 필요"
+    },
+    {
+      "id": "angel-robotics-multi-2026",
+      "application": "로봇 구동모듈 조립 - Halbach Array 마그넷 접착 / 플랜지 액상 가스켓 / 부품 세정",
+      "substrates": [
+        "Magnet (Halbach Array 배열 구조)",
+        "플랜지 결합면 (재질 미기재)"
+      ],
+      "requirements": [
+        "산업안전보건법에 따른 저유해성 세정제 필요(알코올/신나 대체)"
+      ],
+      "recommended": [
+        "Loctite 480 + Loctite CA Primer Gold(CPG) - 마그넷 접착용",
+        "Loctite SI 5920 또는 Loctite 518 + Loctite SF 7649 - 플랜지 가스켓용",
+        "Loctite SF 7265 - 세정제"
+      ],
+      "reason": "마그넷 접착: Loctite 480(내충격성 강화 순간접착제)에 CPG를 반대면에 도포해 경화를 빠르고 안정적으로 유도. 플랜지 가스켓: 고내열이 필요하면 SI 5920(실리콘), 아니면 518(혐기성)+SF 7649(경화촉진제) 조합. 세정제: SF 7265는 BTX Free/염화메틸렌 미함유로 기존 알코올/신나 대비 저유해성."
+    },
+    {
+      "id": "cytech-cctv-lens-2026",
+      "application": "CCTV Lens Bonding - Glass+Glass 사이 편광액 주입용 UV 접착제 (Side 원형 부위 Coating 및 Sealing)",
+      "substrates": [
+        "Glass",
+        "Glass"
+      ],
+      "requirements": [
+        "UV 경화형 접착제",
+        "점도 9,000CP",
+        "Lens size 약 500원 동전 크기",
+        "공정: Glass 절단 → Spacer spray 도포(편광액 주입 공간 확보) → UV접착제 도포 후 Glass 적층·경화 → 편광액 주입 → 편광액 Gate 부분 접착(UV)"
+      ],
+      "recommended": [
+        "Loctite AA 3321",
+        "Loctite AA 3311"
+      ],
+      "reason": "Glass-Glass Lens bonding에 사용되는 UV 경화형 아크릴 접착제 2종을 제시. 가산 연구소에서 Sample test 진행 예정(9월 28~30일 요청).",
+      "status": "Sample test 일정 협의중"
     }
   ]
 }
