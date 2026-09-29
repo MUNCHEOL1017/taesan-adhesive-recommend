@@ -1,0 +1,25 @@
+{
+  "checkedAt": "2026-09-29T05:17:51.849Z",
+  "total": 107,
+  "failureCount": 2,
+  "failures": [
+    {
+      "url": "https://api.henkeldx.com/v2/mysds/SafetyDataSheetSet?Appid=%27YPSSW_ROHSUA_EXT%27&Matnr=%272052295%27&Laiso=%27EN%27&Rvlid=%27REG_WRLD%27&Dmskey=%27%27&X-Api-Key=Auy4a2t5e00VU2Ju93GSKHeybHFVjYLX",
+      "labels": [
+        "rohsUrl"
+      ],
+      "status": 500,
+      "ok": false,
+      "error": null
+    },
+    {
+      "url": "https://api.henkeldx.com/v2/mysds/SafetyDataSheetSet?Appid=%27YPSSW_ROHSUA_EXT%27&Matnr=%272056392%27&Laiso=%27EN%27&Rvlid=%27REG_WRLD%27&Dmskey=%27%27&X-Api-Key=Auy4a2t5e00VU2Ju93GSKHeybHFVjYLX",
+      "labels": [
+        "rohsUrl"
+      ],
+      "status": 500,
+      "ok": false,
+      "error": null
+    }
+  ]
+}
