@@ -164,7 +164,9 @@
   .lineup-item .lineup-capacity { font-size: 11.5px; color: var(--navy); font-weight: 600; margin-bottom: 4px; }
   .lineup-item .lineup-desc { font-size: 12px; color: #424242; line-height: 1.5; margin-bottom: 6px; }
   .lineup-item .lineup-reason { font-size: 11.5px; color: #6b5510; background: #fff8e6; border: 1px solid #f0e0ad; border-radius: 6px; padding: 6px 8px; line-height: 1.5; margin-bottom: 6px; }
-  .lineup-item .lineup-link-row { display: flex; flex-wrap: wrap; gap: 4px 14px; }
+  .lineup-item .lineup-link-row { display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: center; }
+  .lineup-link-quote { background: var(--red); color: #fff !important; padding: 6px 14px; border-radius: 999px; font-weight: 700; font-size: 12.5px; border: none; cursor: pointer; }
+  .lineup-link-quote:hover { background: var(--red-dark); }
   .lineup-item .lineup-link { font-size: 11.5px; color: var(--red); font-weight: 700; text-decoration: underline; }
   .lineup-item .lineup-link:hover { color: var(--red-dark); }
   .lineup-item .lineup-link-naver { color: #03C75A; }
@@ -797,6 +799,7 @@
             ${sdsLinkHtml(top)}
             ${rohsLinkHtml(top)}
             ${naverPriceLinkHtml(top.name)}
+            ${quoteLinkHtml(top)}
           </div>
         </div>`;
       }).join('');
@@ -956,6 +959,24 @@
     return `<a class="lineup-link" href="${product.rohsUrl}" target="_blank" rel="noopener noreferrer">✅ RoHS 인증서 다운로드 ↗</a>`;
   }
 
+  function quoteLinkHtml(product) {
+    return `<button type="button" class="lineup-link-quote" data-quote-product="${product.name}">💬 이 제품 견적 요청</button>`;
+  }
+
+  // 제품 카드의 "견적 요청" 버튼 — 문의 폼 요청사항에 제품명을 미리 적어두고 그 위치로 스크롤합니다.
+  document.addEventListener('click', function (e) {
+    const btn = e.target.closest('.lineup-link-quote');
+    if (!btn) return;
+    const productName = btn.dataset.quoteProduct;
+    const detail = document.getElementById('detail');
+    const marker = `[견적 요청 제품] ${productName}`;
+    if (!detail.value.includes(marker)) {
+      detail.value = detail.value ? `${marker}\n${detail.value}` : marker;
+    }
+    document.getElementById('contact').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    detail.focus();
+  });
+
   function naverPriceLinkHtml(productName) {
     const info = NAVER_PRICES[productName];
     if (info && info.price) {
@@ -1003,6 +1024,7 @@
         ${sdsLinkHtml(p)}
         ${rohsLinkHtml(p)}
         ${naverPriceLinkHtml(p.name)}
+        ${quoteLinkHtml(p)}
       </div>
     </div>`;
   }
