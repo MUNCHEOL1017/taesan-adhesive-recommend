@@ -21,22 +21,35 @@ for (const key of keys) {
 
 console.log(`총 ${found.size}개 고유 링크 확인 시작...`);
 
+// 응답이 없는 링크 하나 때문에 전체 작업이 멈추지 않도록 요청마다 타임아웃을 둡니다.
+const REQUEST_TIMEOUT_MS = 15000;
+async function fetchWithTimeout(url, options) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+  try {
+    return await fetch(url, { ...options, signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 const results = [];
 for (const [url, labels] of found) {
   let status = null;
   let ok = false;
   let error = null;
   try {
-    let res = await fetch(url, { method: 'HEAD', redirect: 'follow' });
+    let res = await fetchWithTimeout(url, { method: 'HEAD', redirect: 'follow' });
     if (res.status === 405 || res.status === 403 || res.status === 501) {
-      res = await fetch(url, { method: 'GET', redirect: 'follow' });
+      res = await fetchWithTimeout(url, { method: 'GET', redirect: 'follow' });
     }
     status = res.status;
     ok = res.ok;
   } catch (e) {
-    error = e.message;
+    error = e.name === 'AbortError' ? `timeout after ${REQUEST_TIMEOUT_MS}ms` : e.message;
   }
   results.push({ url, labels, status, ok, error });
+  console.log(`  [${ok ? 'OK' : 'FAIL'}] ${status ?? 'ERROR'} ${url}`);
   await new Promise((r) => setTimeout(r, 150)); // 과호출 방지
 }
 
