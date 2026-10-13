@@ -1,12 +1,21 @@
 {
-  "checkedAt": "2026-10-06T02:07:47.525Z",
+  "checkedAt": "2026-10-13T02:54:14.137Z",
   "total": 107,
-  "failureCount": 3,
+  "failureCount": 5,
   "failures": [
     {
-      "url": "https://next.henkel-adhesives.com/us/en/products/industrial-adhesives/central-pdp.html/loctite-ea-9309na/53583IB.html",
+      "url": "https://api.henkeldx.com/v2/mysds/SafetyDataSheetSet?Appid=%27YPSSW_SDSUA_EXT%27&Matnr=%27555338%27&Laiso=%27EN%27&Rvlid=%27US%27&Dmskey=%27%27&X-Api-Key=Auy4a2t5e00VU2Ju93GSKHeybHFVjYLX",
       "labels": [
-        "url"
+        "sdsUrl"
+      ],
+      "status": 500,
+      "ok": false,
+      "error": null
+    },
+    {
+      "url": "https://api.henkeldx.com/v2/mysds/SafetyDataSheetSet?Appid=%27YPSSW_ROHSUA_EXT%27&Matnr=%27702139%27&Laiso=%27EN%27&Rvlid=%27REG_WRLD%27&Dmskey=%27%27&X-Api-Key=Auy4a2t5e00VU2Ju93GSKHeybHFVjYLX",
+      "labels": [
+        "rohsUrl"
       ],
       "status": null,
       "ok": false,
@@ -20,6 +29,15 @@
       "status": 500,
       "ok": false,
       "error": null
+    },
+    {
+      "url": "https://api.henkeldx.com/v2/mysds/SafetyDataSheetSet?Appid=%27YPSSW_ROHSUA_EXT%27&Matnr=%27555339%27&Laiso=%27EN%27&Rvlid=%27REG_WRLD%27&Dmskey=%27%27&X-Api-Key=Auy4a2t5e00VU2Ju93GSKHeybHFVjYLX",
+      "labels": [
+        "rohsUrl"
+      ],
+      "status": null,
+      "ok": false,
+      "error": "timeout after 15000ms"
     },
     {
       "url": "https://api.henkeldx.com/v2/mysds/SafetyDataSheetSet?Appid=%27YPSSW_ROHSUA_EXT%27&Matnr=%272056392%27&Laiso=%27EN%27&Rvlid=%27REG_WRLD%27&Dmskey=%27%27&X-Api-Key=Auy4a2t5e00VU2Ju93GSKHeybHFVjYLX",
