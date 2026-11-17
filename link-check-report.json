@@ -1,7 +1,7 @@
 {
-  "checkedAt": "2026-11-10T04:01:49.304Z",
+  "checkedAt": "2026-11-17T04:23:23.454Z",
   "total": 107,
-  "failureCount": 5,
+  "failureCount": 6,
   "failures": [
     {
       "url": "https://api.henkeldx.com/v2/mysds/SafetyDataSheetSet?Appid=%27YPSSW_SDSUA_EXT%27&Matnr=%27555338%27&Laiso=%27EN%27&Rvlid=%27US%27&Dmskey=%27%27&X-Api-Key=Auy4a2t5e00VU2Ju93GSKHeybHFVjYLX",
@@ -13,15 +13,6 @@
       "error": null
     },
     {
-      "url": "https://api.henkeldx.com/v2/mysds/SafetyDataSheetSet?Appid=%27YPSSW_ROHSUA_EXT%27&Matnr=%27937060%27&Laiso=%27EN%27&Rvlid=%27REG_WRLD%27&Dmskey=%27%27&X-Api-Key=Auy4a2t5e00VU2Ju93GSKHeybHFVjYLX",
-      "labels": [
-        "rohsUrl"
-      ],
-      "status": null,
-      "ok": false,
-      "error": "timeout after 15000ms"
-    },
-    {
       "url": "https://api.henkeldx.com/v2/mysds/SafetyDataSheetSet?Appid=%27YPSSW_ROHSUA_EXT%27&Matnr=%272052295%27&Laiso=%27EN%27&Rvlid=%27REG_WRLD%27&Dmskey=%27%27&X-Api-Key=Auy4a2t5e00VU2Ju93GSKHeybHFVjYLX",
       "labels": [
         "rohsUrl"
@@ -31,7 +22,16 @@
       "error": null
     },
     {
-      "url": "https://api.henkeldx.com/v2/mysds/SafetyDataSheetSet?Appid=%27YPSSW_ROHSUA_EXT%27&Matnr=%27555338%27&Laiso=%27EN%27&Rvlid=%27REG_WRLD%27&Dmskey=%27%27&X-Api-Key=Auy4a2t5e00VU2Ju93GSKHeybHFVjYLX",
+      "url": "https://api.henkeldx.com/v2/mysds/SafetyDataSheetSet?Appid=%27YPSSW_ROHSUA_EXT%27&Matnr=%27135463%27&Laiso=%27EN%27&Rvlid=%27REG_WRLD%27&Dmskey=%27%27&X-Api-Key=Auy4a2t5e00VU2Ju93GSKHeybHFVjYLX",
+      "labels": [
+        "rohsUrl"
+      ],
+      "status": null,
+      "ok": false,
+      "error": "timeout after 15000ms"
+    },
+    {
+      "url": "https://api.henkeldx.com/v2/mysds/SafetyDataSheetSet?Appid=%27YPSSW_ROHSUA_EXT%27&Matnr=%27483624%27&Laiso=%27EN%27&Rvlid=%27REG_WRLD%27&Dmskey=%27%27&X-Api-Key=Auy4a2t5e00VU2Ju93GSKHeybHFVjYLX",
       "labels": [
         "rohsUrl"
       ],
@@ -47,6 +47,15 @@
       "status": 500,
       "ok": false,
       "error": null
+    },
+    {
+      "url": "https://api.henkeldx.com/v2/mysds/SafetyDataSheetSet?Appid=%27YPSSW_ROHSUA_EXT%27&Matnr=%271036826%27&Laiso=%27EN%27&Rvlid=%27REG_WRLD%27&Dmskey=%27%27&X-Api-Key=Auy4a2t5e00VU2Ju93GSKHeybHFVjYLX",
+      "labels": [
+        "rohsUrl"
+      ],
+      "status": null,
+      "ok": false,
+      "error": "timeout after 15000ms"
     }
   ]
 }
